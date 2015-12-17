@@ -40,18 +40,17 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup TwoProjectionRegistration
  */
-template < class TFixedImage, class TMovingImage >
-class ITK_EXPORT NormalizedCorrelationTwoImageToOneImageMetric :
-    public TwoImageToOneImageMetric< TFixedImage, TMovingImage>
+template < typename TFixedImage, typename TMovingImage >
+class NormalizedCorrelationTwoImageToOneImageMetric :
+    public TwoImageToOneImageMetric< TFixedImage, TMovingImage >
 {
 public:
-
   /** Standard class typedefs. */
-  typedef NormalizedCorrelationTwoImageToOneImageMetric    Self;
-  typedef TwoImageToOneImageMetric<TFixedImage, TMovingImage >  Superclass;
+  typedef NormalizedCorrelationTwoImageToOneImageMetric        Self;
+  typedef TwoImageToOneImageMetric<TFixedImage, TMovingImage > Superclass;
 
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,14 +97,13 @@ public:
 protected:
   NormalizedCorrelationTwoImageToOneImageMetric();
   virtual ~NormalizedCorrelationTwoImageToOneImageMetric() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   NormalizedCorrelationTwoImageToOneImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool    m_SubtractMean;
-
 };
 
 } // end namespace itk

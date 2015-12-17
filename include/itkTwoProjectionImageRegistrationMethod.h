@@ -62,14 +62,14 @@ namespace itk
  * \ingroup TwoProjectionRegistration
  */
 template <typename TFixedImage, typename TMovingImage>
-class ITK_EXPORT TwoProjectionImageRegistrationMethod : public ProcessObject
+class TwoProjectionImageRegistrationMethod : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef TwoProjectionImageRegistrationMethod  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef TwoProjectionImageRegistrationMethod Self;
+  typedef ProcessObject                        Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -187,7 +187,7 @@ public:
   itkSetMacro( FixedImageRegionDefined2, bool );
 
   /** Initialize by setting the interconnects between the components. */
-  virtual void Initialize() throw (ExceptionObject);
+  virtual void Initialize();
 
   /** Returns the transform resulting from the registration process  */
   const TransformOutputType * GetOutput() const;
@@ -203,11 +203,11 @@ public:
 protected:
   TwoProjectionImageRegistrationMethod();
   virtual ~TwoProjectionImageRegistrationMethod() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData ();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro( LastTransformParameters, ParametersType );
@@ -237,7 +237,6 @@ private:
   FixedImageRegionType             m_FixedImageRegion2;
 
 };
-
 
 } // end namespace itk
 

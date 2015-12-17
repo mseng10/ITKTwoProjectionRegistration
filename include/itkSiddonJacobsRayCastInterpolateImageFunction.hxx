@@ -44,7 +44,7 @@ CIT 6, 89-94 (1998).
 namespace itk
 {
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::SiddonJacobsRayCastInterpolateImageFunction()
 {
@@ -81,7 +81,7 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void
 SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -93,7 +93,7 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >::OutputType
 SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::Evaluate( const PointType& point ) const
@@ -349,7 +349,7 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >::OutputType
 SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex( const ContinuousIndexType& index ) const
@@ -361,7 +361,7 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::ComputeInverseTransform() const
 {
@@ -398,7 +398,7 @@ void SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::Initialize()
 {

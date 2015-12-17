@@ -28,7 +28,6 @@ template < typename TFixedImage, typename TMovingImage >
 TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 ::TwoProjectionImageRegistrationMethod()
 {
-
   this->SetNumberOfRequiredOutputs( 1 );  // for the Transform
 
   m_FixedImage1   = 0; // has to be provided by the user.
@@ -124,10 +123,6 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-
-/*
- * Set the initial transform parameters
- */
 template < typename TFixedImage, typename TMovingImage >
 void
 TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
@@ -169,7 +164,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 template < typename TFixedImage, typename TMovingImage >
 void
 TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
-::Initialize() throw (ExceptionObject)
+::Initialize()
 {
 
   if( !m_FixedImage1 )

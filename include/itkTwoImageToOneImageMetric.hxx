@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 TwoImageToOneImageMetric<TFixedImage,TMovingImage>
 ::TwoImageToOneImageMetric()
 {
@@ -44,7 +44,7 @@ TwoImageToOneImageMetric<TFixedImage,TMovingImage>
 /*
  * Set the parameters that define a unique transform
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 TwoImageToOneImageMetric<TFixedImage,TMovingImage>
 ::SetTransformParameters( const ParametersType & parameters ) const
@@ -57,14 +57,10 @@ TwoImageToOneImageMetric<TFixedImage,TMovingImage>
 }
 
 
-
-/*
- * Initialize
- */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 TwoImageToOneImageMetric<TFixedImage,TMovingImage>
-::Initialize(void) throw ( ExceptionObject )
+::Initialize()
 {
 
   if( !m_Transform )
@@ -170,10 +166,7 @@ TwoImageToOneImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
- * PrintSelf
- */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 TwoImageToOneImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -195,7 +188,6 @@ TwoImageToOneImageMetric<TFixedImage,TMovingImage>
   os << indent << "Fixed Image Mask 1: " << m_FixedImageMask1.GetPointer() << std::endl;
   os << indent << "Fixed Image Mask 2: " << m_FixedImageMask2.GetPointer() << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
-
 }
 
 

@@ -107,9 +107,8 @@ public:
   typedef SmartPointer<GradientImageType>                               GradientImagePointer;
   typedef GradientRecursiveGaussianImageFilter< MovingImageType,
                                                 GradientImageType >
-          GradientImageFilterType;
-  typedef typename GradientImageFilterType::Pointer
-          GradientImageFilterPointer;
+                                                     GradientImageFilterType;
+  typedef typename GradientImageFilterType::Pointer  GradientImageFilterPointer;
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"

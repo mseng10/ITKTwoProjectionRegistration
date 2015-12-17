@@ -357,7 +357,6 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-
 template < typename TFixedImage, typename TMovingImage >
 void
 TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>

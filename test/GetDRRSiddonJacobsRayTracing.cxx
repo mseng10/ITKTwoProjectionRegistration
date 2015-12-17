@@ -74,7 +74,6 @@ void raytracing_exe_usage()
 }
 
 
-
 int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 {
   char *input_name = NULL;
@@ -281,7 +280,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   // purposes of the interpolator both images must be three dimensional.
 
   const     unsigned int   Dimension = 3;
-  typedef   short  InputPixelType;
+  typedef   short         InputPixelType;
   typedef   unsigned char OutputPixelType;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
@@ -434,14 +433,13 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   interpolator->SetProjectionAngle( dtr * rprojection ); // Set angle between projection central axis and -z axis
-  interpolator->Setscd(scd); // Set source to isocenter distance
+  interpolator->SetFocalPointToIsocenterDistance(scd); // Set source to isocenter distance
   interpolator->SetThreshold(threshold); // Set intensity threshold, below which are ignored.
   interpolator->SetTransform(transform);
 
   interpolator->Initialize();
 
   filter->SetInterpolator( interpolator );
-
 
 
   // The size and resolution of the output DRR image is specified via the filter.
@@ -563,4 +561,3 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -48,13 +48,13 @@ template<typename TInputImage, typename TCoordRep>
 SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::SiddonJacobsRayCastInterpolateImageFunction()
 {
-  m_scd = 1000.;  // Focal point to isocenter distance in mm.
+  m_FocalPointToIsocenterDistance = 1000.;  // Focal point to isocenter distance in mm.
   m_ProjectionAngle = 0.; // Angle in radians betweeen projection central axis and reference axis
   m_Threshold = 0.; // Intensity threshold, below which is ignored.
 
-  m_sourcePoint[0] = 0.;
-  m_sourcePoint[1] = 0.;
-  m_sourcePoint[2] = 0.;
+  m_SourcePoint[0] = 0.;
+  m_SourcePoint[1] = 0.;
+  m_SourcePoint[2] = 0.;
 
   m_InverseTransform = TransformType::New();
   m_InverseTransform->SetComputeZYX(true);
@@ -130,15 +130,15 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   if( interpMTime < vTransformMTime ){
           this->ComputeInverseTransform();
-          // The m_sourceWorld should be computed here to avoid the repeatedly calculation
+          // The m_SourceWorld should be computed here to avoid the repeatedly calculation
           // for each projection ray. However, we are in a const function, which prohibits
           // the modification of class member variables. So the world coordiate of the source
           // point is calculated for each ray as below. Performance improvement may be made
           // by using a static variable?
-          // m_sourceWorld = m_InverseTransform->TransformPoint(m_sourcePoint);
+          // m_SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
   }
 
-  PointType sourceWorld = m_InverseTransform->TransformPoint(m_sourcePoint);
+  PointType SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
 
 
   // Get ths input pointers
@@ -159,16 +159,16 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   // The following is the Siddon-Jacob fast ray-tracing algorithm
 
-  rayVector[0] = drrPixelWorld[0] - sourceWorld[0];
-  rayVector[1] = drrPixelWorld[1] - sourceWorld[1];
-  rayVector[2] = drrPixelWorld[2] - sourceWorld[2];
+  rayVector[0] = drrPixelWorld[0] - SourceWorld[0];
+  rayVector[1] = drrPixelWorld[1] - SourceWorld[1];
+  rayVector[2] = drrPixelWorld[2] - SourceWorld[2];
 
   /* Calculate the parametric  values of the first  and  the  last
   intersection points of  the  ray  with the X,  Y, and Z-planes  that
   define  the  CT volume. */
   if (rayVector[0] != 0){
-          alphaX1  = (0.0 - sourceWorld[0]) / rayVector[0];
-          alphaXN  = (sizeCT[0]*ctPixelSpacing[0] -  sourceWorld[0]) /  rayVector[0];
+          alphaX1  = (0.0 - SourceWorld[0]) / rayVector[0];
+          alphaXN  = (sizeCT[0]*ctPixelSpacing[0] -  SourceWorld[0]) /  rayVector[0];
           alphaXmin =  std::min(alphaX1, alphaXN);
           alphaXmax =  std::max(alphaX1, alphaXN);
   }
@@ -178,8 +178,8 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   }
 
   if (rayVector[1] != 0){
-          alphaY1  = (0.0 - sourceWorld[1]) / rayVector[1];
-          alphaYN  = (sizeCT[1]*ctPixelSpacing[1] -  sourceWorld[1]) /  rayVector[1];
+          alphaY1  = (0.0 - SourceWorld[1]) / rayVector[1];
+          alphaYN  = (sizeCT[1]*ctPixelSpacing[1] -  SourceWorld[1]) /  rayVector[1];
           alphaYmin =  std::min(alphaY1, alphaYN);
           alphaYmax =  std::max(alphaY1, alphaYN);
   }
@@ -189,14 +189,14 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   }
 
   if (rayVector[2] != 0){
-          alphaZ1  = (0.0 - sourceWorld[2]) / rayVector[2];
-          alphaZN  = (sizeCT[2]*ctPixelSpacing[2] -  sourceWorld[2]) /  rayVector[2];
+          alphaZ1  = (0.0 - SourceWorld[2]) / rayVector[2];
+          alphaZN  = (sizeCT[2]*ctPixelSpacing[2] -  SourceWorld[2]) /  rayVector[2];
           alphaZmin =  std::min(alphaZ1, alphaZN);
           alphaZmax =  std::max(alphaZ1, alphaZN);
   }
   else{
-          alphaZmin =  -2;
-          alphaZmax =  2;
+          alphaZmin = -2;
+          alphaZmax = 2;
   }
 
   /* Get the very first and the last alpha values when the ray
@@ -208,9 +208,9 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   of the ray with the X, Y, and Z-planes after the ray entered the
   CT volume. */
 
-  firstIntersection[0] = sourceWorld[0] + alphaMin * rayVector[0];
-  firstIntersection[1] = sourceWorld[1] + alphaMin * rayVector[1];
-  firstIntersection[2] = sourceWorld[2] + alphaMin * rayVector[2];
+  firstIntersection[0] = SourceWorld[0] + alphaMin * rayVector[0];
+  firstIntersection[1] = SourceWorld[1] + alphaMin * rayVector[1];
+  firstIntersection[2] = SourceWorld[2] + alphaMin * rayVector[2];
 
   /* Transform world coordinate to the continuous index of the CT volume*/
   firstIntersectionIndex[0] = firstIntersection[0] / ctPixelSpacing[0];
@@ -229,24 +229,24 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   if (rayVector[0] == 0)
           alphaX = 2;
   else{
-          alphaIntersectionUp[0] = (firstIntersectionIndexUp[0] * ctPixelSpacing[0] -  sourceWorld[0]) / rayVector[0];
-          alphaIntersectionDown[0] = (firstIntersectionIndexDown[0] * ctPixelSpacing[0] -  sourceWorld[0]) / rayVector[0];
+          alphaIntersectionUp[0] = (firstIntersectionIndexUp[0] * ctPixelSpacing[0] -  SourceWorld[0]) / rayVector[0];
+          alphaIntersectionDown[0] = (firstIntersectionIndexDown[0] * ctPixelSpacing[0] -  SourceWorld[0]) / rayVector[0];
           alphaX = std::max(alphaIntersectionUp[0], alphaIntersectionDown[0]);
   }
 
   if (rayVector[1] == 0)
           alphaY = 2;
   else{
-          alphaIntersectionUp[1] = (firstIntersectionIndexUp[1] * ctPixelSpacing[1] -  sourceWorld[1]) / rayVector[1];
-          alphaIntersectionDown[1] = (firstIntersectionIndexDown[1] * ctPixelSpacing[1] -  sourceWorld[1]) / rayVector[1];
+          alphaIntersectionUp[1] = (firstIntersectionIndexUp[1] * ctPixelSpacing[1] -  SourceWorld[1]) / rayVector[1];
+          alphaIntersectionDown[1] = (firstIntersectionIndexDown[1] * ctPixelSpacing[1] -  SourceWorld[1]) / rayVector[1];
           alphaY = std::max(alphaIntersectionUp[1], alphaIntersectionDown[1]);
   }
 
   if (rayVector[2] == 0)
           alphaZ = 2;
   else{
-          alphaIntersectionUp[2] = (firstIntersectionIndexUp[2] * ctPixelSpacing[2] -  sourceWorld[2]) / rayVector[2];
-          alphaIntersectionDown[2] = (firstIntersectionIndexDown[2] * ctPixelSpacing[2] -  sourceWorld[2]) / rayVector[2];
+          alphaIntersectionUp[2] = (firstIntersectionIndexUp[2] * ctPixelSpacing[2] -  SourceWorld[2]) / rayVector[2];
+          alphaIntersectionDown[2] = (firstIntersectionIndexDown[2] * ctPixelSpacing[2] -  SourceWorld[2]) / rayVector[2];
           alphaZ = std::max(alphaIntersectionUp[2], alphaIntersectionDown[2]);
   }
 
@@ -267,17 +267,17 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
           alphaUz = 999;
 
   /* Calculate voxel index incremental values along the ray path. */
-  if (sourceWorld[0] < drrPixelWorld[0])
+  if (SourceWorld[0] < drrPixelWorld[0])
           iU = 1;
   else
           iU = -1;
 
-  if (sourceWorld[1] < drrPixelWorld[1])
+  if (SourceWorld[1] < drrPixelWorld[1])
           jU = 1;
   else
           jU = -1;
 
-  if (sourceWorld[2] < drrPixelWorld[2])
+  if (SourceWorld[2] < drrPixelWorld[2])
           kU = 1;
   else
           kU = -1;
@@ -375,7 +375,7 @@ void SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   // An Euler 3D transfrom is used to shift the source to the origin.
   typename TransformType::OutputVectorType focalpointtranslation;
   focalpointtranslation[0] = -isocenter[0];
-  focalpointtranslation[1] = m_scd - isocenter[1];
+  focalpointtranslation[1] = m_FocalPointToIsocenterDistance - isocenter[1];
   focalpointtranslation[2] = -isocenter[2];
   m_CamShiftTransform->SetTranslation( focalpointtranslation );
   m_ComposedTransform->Compose(m_CamShiftTransform, 0);
@@ -398,7 +398,7 @@ void SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::Initialize()
 {
   this->ComputeInverseTransform();
-  m_sourceWorld = m_InverseTransform->TransformPoint(m_sourcePoint);
+  m_SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
 }
 
 } // namespace itk

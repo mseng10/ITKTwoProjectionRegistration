@@ -104,16 +104,13 @@ public:
                           itkGetStaticConstMacro(MovingImageDimension)> GradientPixelType;
   typedef Image<GradientPixelType,
                 itkGetStaticConstMacro(MovingImageDimension)> GradientImageType;
-  typedef SmartPointer<GradientImageType>     GradientImagePointer;
+  typedef SmartPointer<GradientImageType>                               GradientImagePointer;
   typedef GradientRecursiveGaussianImageFilter< MovingImageType,
                                                 GradientImageType >
-  GradientImageFilterType;
-  typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
-
+                                                                        GradientImageFilterType;
+  typedef typename GradientImageFilterType::Pointer                     GradientImageFilterPointer;
 
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
-
-
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
@@ -126,7 +123,6 @@ public:
   typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension)
                                               >      MovingImageMaskType;
   typedef typename  MovingImageMaskType::Pointer     MovingImageMaskPointer;
-
 
 
   /**  Type of the measure. */

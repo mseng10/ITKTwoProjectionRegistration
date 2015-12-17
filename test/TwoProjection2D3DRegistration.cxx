@@ -73,17 +73,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef  CommandIterationUpdate Self;
+  typedef  itk::Command           Superclass;
+  typedef itk::SmartPointer<Self> Pointer;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::PowellOptimizer     OptimizerType;
-  typedef const OptimizerType                         *OptimizerPointer;
+  typedef itk::PowellOptimizer  OptimizerType;
+  typedef const OptimizerType * OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
   {
@@ -369,7 +369,6 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   }
 
 
-
   // We begin the program proper by defining the 2D and 3D images. The
   // {TwoProjectionImageRegistrationMethod} requires that both
   // images have the same dimension so the 2D image is given
@@ -381,7 +380,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
 
   typedef itk::Image< PixelType3D, Dimension > ImageType3D;
 
-  typedef unsigned char  OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   // The following lines define each of the components used in the
@@ -441,11 +440,10 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   }
 
 
-
   //  The 2- and 3-D images are read from files,
 
   typedef itk::ImageFileReader< InternalImageType > ImageReaderType2D;
-  typedef itk::ImageFileReader< ImageType3D > ImageReaderType3D;
+  typedef itk::ImageFileReader< ImageType3D >       ImageReaderType3D;
 
   ImageReaderType2D::Pointer imageReader2D1 = ImageReaderType2D::New();
   ImageReaderType2D::Pointer imageReader2D2 = ImageReaderType2D::New();
@@ -630,8 +628,8 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   const itk::Vector<double, 3> resolution2D1 = imageReader2D1->GetOutput()->GetSpacing();
   const itk::Vector<double, 3> resolution2D2 = imageReader2D2->GetOutput()->GetSpacing();
 
-  typedef InternalImageType::RegionType      ImageRegionType2D;
-  typedef ImageRegionType2D::SizeType  SizeType2D;
+  typedef InternalImageType::RegionType ImageRegionType2D;
+  typedef ImageRegionType2D::SizeType   SizeType2D;
 
   ImageRegionType2D region2D1 = rescaler2D1->GetOutput()->GetBufferedRegion();
   ImageRegionType2D region2D2 = rescaler2D2->GetOutput()->GetBufferedRegion();
@@ -697,7 +695,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
 
   // 2D Image 1
   interpolator1->SetProjectionAngle( dtr*projAngle1 );
-  interpolator1->Setscd(scd);
+  interpolator1->SetFocalPointToIsocenterDistance(scd);
   interpolator1->SetThreshold(threshold);
   interpolator1->SetTransform(transform);
 
@@ -705,13 +703,11 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
 
   // 2D Image 2
   interpolator2->SetProjectionAngle( dtr*projAngle2 );
-  interpolator2->Setscd(scd);
+  interpolator2->SetFocalPointToIsocenterDistance(scd);
   interpolator2->SetThreshold(threshold);
   interpolator2->SetTransform(transform);
 
   interpolator2->Initialize();
-
-
 
 
   // Set up the transform and start position
@@ -827,7 +823,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   resampleFilter1->SetInput( caster3D->GetOutput() ); // Link the 3D volume.
   resampleFilter1->SetDefaultPixelValue( 0 );
 
-  // The parameters of interpolator1, such as ProjectionAngle and scd
+  // The parameters of interpolator1, such as ProjectionAngle and FocalPointToIsocenterDistance
   // have been set before registration. Here we only need to replace the initial
   // transform with the final transform.
   interpolator1->SetTransform( finalTransform );
@@ -845,7 +841,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   resampleFilter2->SetInput( caster3D->GetOutput() );
   resampleFilter2->SetDefaultPixelValue( 0 );
 
-  // The parameters of interpolator2, such as ProjectionAngle and scd
+  // The parameters of interpolator2, such as ProjectionAngle and FocalPointToIsocenterDistance
   // have been set before registration. Here we only need to replace the initial
   // transform with the final transform.
   interpolator2->SetTransform( finalTransform );

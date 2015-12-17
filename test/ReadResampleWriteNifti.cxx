@@ -32,19 +32,18 @@ This program was modified from the ITK example--ResampleImageFilter2.cxx
 #include "itkLinearInterpolateImageFunction.h"
 
 
-
 int main( int argc, char * argv[] )
 {
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-  std::cerr << argv[0] << "  inputImageFile  outputImageFile" << std::endl; 
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile" << std::endl;
     return EXIT_FAILURE;
     }
 
   if( argc > 3 )
     {
-    std::cerr << "Too many arguments" << std::endl; 
+    std::cerr << "Too many arguments" << std::endl;
   }
 
   const     unsigned int   Dimension = 3;
@@ -75,7 +74,7 @@ int main( int argc, char * argv[] )
   typedef itk::AffineTransform< double, Dimension >  TransformType;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                        InputImageType, double >  InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   filter->SetInterpolator( interpolator );
@@ -93,7 +92,7 @@ int main( int argc, char * argv[] )
 
 
   filter->SetOutputSpacing( outputSpacing );
- 
+
   filter->SetOutputOrigin( reader->GetOutput()->GetOrigin() );
 
 
@@ -112,7 +111,7 @@ int main( int argc, char * argv[] )
 
   WriterType::Pointer writer = WriterType::New();
 
-  typedef itk::NiftiImageIO                   ImageIOType;    
+  typedef itk::NiftiImageIO                   ImageIOType;
   ImageIOType::Pointer niftiIO = ImageIOType::New();
 
   //  The NiftiImageIO object is then connected to the
@@ -128,4 +127,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

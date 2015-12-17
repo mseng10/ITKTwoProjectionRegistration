@@ -10,6 +10,6 @@ dependencies:
 
 test:
   override:
-    - mkdir ~/ITKMinimialPathExtraction-build
+    - mkdir ~/ITKTwoProjectionRegistration-build
     - docker run -v ~/ITKTwoProjectionRegistration:/usr/src/ITKTwoProjectionRegistration -v ~/ITKTwoProjectionRegistration-build:/usr/src/ITKTwoProjectionRegistration-build insighttoolkit/twoprojectionregistration-test /usr/src/ITKTwoProjectionRegistration/test/Docker/test.sh
 

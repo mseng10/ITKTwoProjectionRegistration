@@ -113,7 +113,7 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   float alphaX, alphaY, alphaZ, alphaCmin, alphaCminPrev;
   float alphaUx, alphaUy, alphaUz;
   float alphaIntersectionUp[3], alphaIntersectionDown[3];
-  float d12, dconv, value;
+  float d12, value;
   float firstIntersectionIndex[3];
   int firstIntersectionIndexUp[3], firstIntersectionIndexDown[3];
   int iU, jU, kU;
@@ -283,11 +283,6 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
           kU = -1;
 
   d12 = 0.0; /* Initialize the sum of the voxel intensities along the ray path to zero. */
-
-  /* Compute the Euclidean distance between the source and the current DRR pixel. */
-  dconv = sqrt( (drrPixelWorld[0] - sourceWorld[0]) * (drrPixelWorld[0] - sourceWorld[0]) +
-          (drrPixelWorld[1] - sourceWorld[1]) * (drrPixelWorld[1] - sourceWorld[1]) +
-          (drrPixelWorld[2] - sourceWorld[2]) * (drrPixelWorld[2] - sourceWorld[2]) );
 
 
   /* Initialize the current ray position. */

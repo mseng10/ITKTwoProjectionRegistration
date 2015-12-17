@@ -55,7 +55,7 @@ namespace itk
   */
 template <typename TInputImage, typename TCoordRep = float >
 class SiddonJacobsRayCastInterpolateImageFunction :
-  public InterpolateImageFunction<TInputImage,TCoordRep>
+    public InterpolateImageFunction<TInputImage,TCoordRep>
 {
 public:
   /** Standard class typedefs. */
@@ -66,7 +66,7 @@ public:
 
   /** Constants for the image dimensions */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-          TInputImage::ImageDimension);
+                      TInputImage::ImageDimension);
 
 
   typedef Euler3DTransform<TCoordRep> TransformType;
@@ -144,7 +144,7 @@ public:
   * calling the method.
   */
   virtual OutputType EvaluateAtContinuousIndex(
-          const ContinuousIndexType &index ) const;
+    const ContinuousIndexType &index ) const;
 
   virtual void Initialize(void);
 
@@ -170,15 +170,15 @@ public:
   * the input image pointer is done. */
   inline bool IsInsideBuffer( const PointType & ) const
   {
-          return true;
+    return true;
   }
   bool IsInsideBuffer( const ContinuousIndexType &  ) const
   {
-          return true;
+    return true;
   }
   bool IsInsideBuffer( const IndexType &  ) const
   {
-          return true;
+    return true;
   }
 
 protected:

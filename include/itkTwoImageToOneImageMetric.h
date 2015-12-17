@@ -107,7 +107,7 @@ public:
   typedef SmartPointer<GradientImageType>                               GradientImagePointer;
   typedef GradientRecursiveGaussianImageFilter< MovingImageType,
                                                 GradientImageType >
-                                                                        GradientImageFilterType;
+  GradientImageFilterType;
   typedef typename GradientImageFilterType::Pointer                     GradientImageFilterPointer;
 
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
@@ -115,13 +115,13 @@ public:
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
   typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension)
-                                             >       FixedImageMaskType;
+                         >       FixedImageMaskType;
   typedef typename  FixedImageMaskType::Pointer      FixedImageMaskPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
   typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension)
-                                              >      MovingImageMaskType;
+                         >      MovingImageMaskType;
   typedef typename  MovingImageMaskType::Pointer     MovingImageMaskPointer;
 
 
@@ -208,7 +208,9 @@ public:
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters() const
-  { return m_Transform->GetNumberOfParameters(); }
+  {
+    return m_Transform->GetNumberOfParameters();
+  }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */

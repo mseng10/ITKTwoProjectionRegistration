@@ -123,57 +123,57 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   // Parse command line parameters
 
   while (argc > 1)
-  {
+    {
     ok = false;
 
     if ((ok == false) && (strcmp(argv[1], "-h") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       raytracing_exe_usage();
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-v") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       verbose = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-rx") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       rx=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-ry") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       ry=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-rz") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       rz=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-threshold") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       threshold=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-t") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       tx=atof(argv[1]);
@@ -182,10 +182,10 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
       argc--; argv++;
       tz=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-iso") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       cx=atof(argv[1]);
@@ -195,46 +195,46 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
       cz=atof(argv[1]);
       argc--; argv++;
       customized_iso = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-rp") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       rprojection=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-res") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       im_sx=atof(argv[1]);
       argc--; argv++;
       im_sy=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-size") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       dx=atoi(argv[1]);
       argc--; argv++;
       dy=atoi(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-scd") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       scd = atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-2dcx") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       o2Dx=atof(argv[1]);
@@ -242,39 +242,37 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
       o2Dy=atof(argv[1]);
       argc--; argv++;
       customized_2DCX = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-o") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       output_name = argv[1];
       argc--; argv++;
-    }
+      }
 
     if (ok == false)
-    {
-
-      if (input_name == NULL)
       {
+      if (input_name == NULL)
+        {
         input_name = argv[1];
         argc--;
         argv++;
-      }
-
+        }
       else
-      {
+        {
         std::cerr << "ERROR: Can not parse argument " << argv[1] << std::endl;
         raytracing_exe_usage();
+        }
       }
     }
-  }
 
   if (verbose)
-  {
+    {
     if (input_name)  std::cout << "Input image: "  << input_name  << std::endl;
     if (output_name) std::cout << "Output image: " << output_name << std::endl;
-  }
+    }
 
   // Although we generate a 2D projection of the 3D volume for the
   // purposes of the interpolator both images must be three dimensional.
@@ -292,32 +290,31 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   // been loaded into an {itk::Image image}.
 
   if (input_name)
-  {
-
+    {
     timer.Start("Loading Input Image");
     typedef itk::ImageFileReader< InputImageType >  ReaderType;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( input_name );
 
-    try {
+    try
+      {
       reader->Update();
-    }
-
+      }
     catch( itk::ExceptionObject & err )
-    {
+      {
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
       return EXIT_FAILURE;
-    }
+      }
 
     image = reader->GetOutput();
     timer.Stop("Loading Input Image");
-  }
+    }
   else
-  {
+    {
     std::cerr << "Input image file missing !" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
   // To simply Siddon-Jacob's fast ray-tracing algorithm, we force the origin of the CT image
   // to be (0,0,0). Because we align the CT isocenter with the central axis, the projection
@@ -331,7 +328,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   // Print out the details of the input volume
 
   if (verbose)
-  {
+    {
     unsigned int i;
     const itk::Vector<double, 3> spacing = image->GetSpacing();
     std::cout << std::endl << "Input ";
@@ -341,21 +338,21 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 
     std::cout << "  Resolution: [";
     for (i=0; i<Dimension; i++)
-    {
+      {
       std::cout << spacing[i];
       if (i < Dimension-1) std::cout << ", ";
-    }
+      }
     std::cout << "]" << std::endl;
 
     const itk::Point<double, 3> origin = image->GetOrigin();
     std::cout << "  Origin: [";
     for (i=0; i<Dimension; i++)
-    {
+      {
       std::cout << origin[i];
       if (i < Dimension-1) std::cout << ", ";
-    }
+      }
     std::cout << "]" << std::endl<< std::endl;
-  }
+    }
 
   // Creation of a {ResampleImageFilter} enables coordinates for
   // each of the pixels in the DRR image to be generated. These
@@ -401,33 +398,33 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 
   TransformType::InputPointType isocenter;
   if (customized_iso)
-  {
+    {
     // Isocenter location given by the user.
     isocenter[0] = imOrigin[0] + imRes[0] * cx;
     isocenter[1] = imOrigin[1] + imRes[1] * cy;
     isocenter[2] = imOrigin[2] + imRes[2] * cz;
-  }
+    }
   else
-  {
+    {
     // Set the center of the image as the isocenter.
     isocenter[0] = imOrigin[0] + imRes[0] * static_cast<double>( imSize[0] ) / 2.0;
     isocenter[1] = imOrigin[1] + imRes[1] * static_cast<double>( imSize[1] ) / 2.0;
     isocenter[2] = imOrigin[2] + imRes[2] * static_cast<double>( imSize[2] ) / 2.0;
-  }
+    }
   transform->SetCenter(isocenter);
 
   if (verbose)
-  {
+    {
     std::cout << "Image size: "
-      << imSize[0] << ", " << imSize[1] << ", " << imSize[2] << std::endl
-      << "   resolution: "
-      << imRes[0] << ", " << imRes[1] << ", " << imRes[2] << std::endl
-      << "   origin: "
-      << imOrigin[0] << ", " << imOrigin[1] << ", " << imOrigin[2] << std::endl
-      << "   isocenter: "
-      << isocenter[0] << ", " << isocenter[1] << ", " << isocenter[2] << std::endl
-      << "Transform: " << transform << std::endl;
-  }
+              << imSize[0] << ", " << imSize[1] << ", " << imSize[2] << std::endl
+              << "   resolution: "
+              << imRes[0] << ", " << imRes[1] << ", " << imRes[2] << std::endl
+              << "   origin: "
+              << imOrigin[0] << ", " << imOrigin[1] << ", " << imOrigin[2] << std::endl
+              << "   isocenter: "
+              << isocenter[0] << ", " << isocenter[1] << ", " << isocenter[2] << std::endl
+              << "Transform: " << transform << std::endl;
+    }
 
   typedef itk::SiddonJacobsRayCastInterpolateImageFunction<InputImageType,double> InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -460,26 +457,26 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   filter->SetOutputSpacing( spacing );
 
   if (verbose)
-  {
+    {
     std::cout << "Output image size: "
-      << size[0] << ", "
-      << size[1] << ", "
-      << size[2] << std::endl;
+              << size[0] << ", "
+              << size[1] << ", "
+              << size[2] << std::endl;
 
     std::cout << "Output image spacing: "
-      << spacing[0] << ", "
-      << spacing[1] << ", "
-      << spacing[2] << std::endl;
-  }
+              << spacing[0] << ", "
+              << spacing[1] << ", "
+              << spacing[2] << std::endl;
+    }
 
   double origin[ Dimension ];
 
   if (!customized_2DCX)
-  { // Central axis positions are not given by the user. Use the image centers
+    { // Central axis positions are not given by the user. Use the image centers
     // as the central axis position.
     o2Dx = ((double) dx - 1.)/2.;
     o2Dy = ((double) dy - 1.)/2.;
-  }
+    }
 
   // Compute the origin (in mm) of the 2D Image
   origin[0] = - im_sx * o2Dx;
@@ -493,17 +490,17 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   timer.Stop("DRR generation");
 
   if (verbose)
-  {
+    {
     std::cout << "Output image origin: "
-      << origin[0] << ", "
-      << origin[1] << ", "
-      << origin[2] << std::endl;
-  }
+              << origin[0] << ", "
+              << origin[1] << ", "
+              << origin[2] << std::endl;
+    }
 
   // create writer
 
   if (output_name)
-  {
+    {
 
     // The output of the filter can then be passed to a writer to
     // save the DRR image to a file.
@@ -542,20 +539,20 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
     writer->SetInput( flipFilter->GetOutput() );
 
     try
-    {
+      {
       std::cout << "Writing image: " << output_name << std::endl;
       writer->Update();
-    }
+      }
     catch( itk::ExceptionObject & err )
-    {
+      {
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
+      }
     }
-  }
   else
-  {
+    {
     filter->Update();
-  }
+    }
 
   timer.Report();
 

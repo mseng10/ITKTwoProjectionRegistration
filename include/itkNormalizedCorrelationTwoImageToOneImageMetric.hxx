@@ -208,7 +208,6 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage,TMovingImage>
     measure2 = NumericTraits< MeasureType >::Zero;
     }
 
-
   return (measure1 + measure2)/2.0;
 
 }

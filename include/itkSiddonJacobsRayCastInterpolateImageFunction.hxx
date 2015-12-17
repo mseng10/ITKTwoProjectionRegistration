@@ -128,18 +128,18 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   unsigned long int interpMTime = this->GetMTime();
   unsigned long int vTransformMTime = m_Transform->GetMTime();
 
-  if( interpMTime < vTransformMTime ){
-          this->ComputeInverseTransform();
-          // The m_SourceWorld should be computed here to avoid the repeatedly calculation
-          // for each projection ray. However, we are in a const function, which prohibits
-          // the modification of class member variables. So the world coordiate of the source
-          // point is calculated for each ray as below. Performance improvement may be made
-          // by using a static variable?
-          // m_SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
-  }
+  if( interpMTime < vTransformMTime )
+    {
+    this->ComputeInverseTransform();
+    // The m_SourceWorld should be computed here to avoid the repeatedly calculation
+    // for each projection ray. However, we are in a const function, which prohibits
+    // the modification of class member variables. So the world coordiate of the source
+    // point is calculated for each ray as below. Performance improvement may be made
+    // by using a static variable?
+    // m_SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
+    }
 
   PointType SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
-
 
   // Get ths input pointers
   InputImageConstPointer inputPtr=this->GetInputImage();
@@ -166,38 +166,44 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   /* Calculate the parametric  values of the first  and  the  last
   intersection points of  the  ray  with the X,  Y, and Z-planes  that
   define  the  CT volume. */
-  if (rayVector[0] != 0){
-          alphaX1  = (0.0 - SourceWorld[0]) / rayVector[0];
-          alphaXN  = (sizeCT[0]*ctPixelSpacing[0] -  SourceWorld[0]) /  rayVector[0];
-          alphaXmin =  std::min(alphaX1, alphaXN);
-          alphaXmax =  std::max(alphaX1, alphaXN);
-  }
-  else{
-          alphaXmin =  -2;
-          alphaXmax =  2;
-  }
+  if (rayVector[0] != 0)
+    {
+    alphaX1  = (0.0 - SourceWorld[0]) / rayVector[0];
+    alphaXN  = (sizeCT[0]*ctPixelSpacing[0] -  SourceWorld[0]) /  rayVector[0];
+    alphaXmin =  std::min(alphaX1, alphaXN);
+    alphaXmax =  std::max(alphaX1, alphaXN);
+    }
+  else
+    {
+    alphaXmin =  -2;
+    alphaXmax =  2;
+    }
 
-  if (rayVector[1] != 0){
-          alphaY1  = (0.0 - SourceWorld[1]) / rayVector[1];
-          alphaYN  = (sizeCT[1]*ctPixelSpacing[1] -  SourceWorld[1]) /  rayVector[1];
-          alphaYmin =  std::min(alphaY1, alphaYN);
-          alphaYmax =  std::max(alphaY1, alphaYN);
-  }
-  else{
-          alphaYmin =  -2;
-          alphaYmax =  2;
-  }
+  if (rayVector[1] != 0)
+    {
+    alphaY1  = (0.0 - SourceWorld[1]) / rayVector[1];
+    alphaYN  = (sizeCT[1]*ctPixelSpacing[1] -  SourceWorld[1]) /  rayVector[1];
+    alphaYmin =  std::min(alphaY1, alphaYN);
+    alphaYmax =  std::max(alphaY1, alphaYN);
+    }
+  else
+    {
+    alphaYmin =  -2;
+    alphaYmax =  2;
+    }
 
-  if (rayVector[2] != 0){
-          alphaZ1  = (0.0 - SourceWorld[2]) / rayVector[2];
-          alphaZN  = (sizeCT[2]*ctPixelSpacing[2] -  SourceWorld[2]) /  rayVector[2];
-          alphaZmin =  std::min(alphaZ1, alphaZN);
-          alphaZmax =  std::max(alphaZ1, alphaZN);
-  }
-  else{
-          alphaZmin = -2;
-          alphaZmax = 2;
-  }
+  if (rayVector[2] != 0)
+    {
+    alphaZ1  = (0.0 - SourceWorld[2]) / rayVector[2];
+    alphaZN  = (sizeCT[2]*ctPixelSpacing[2] -  SourceWorld[2]) /  rayVector[2];
+    alphaZmin =  std::min(alphaZ1, alphaZN);
+    alphaZmax =  std::max(alphaZ1, alphaZN);
+    }
+  else
+    {
+    alphaZmin = -2;
+    alphaZmax = 2;
+    }
 
   /* Get the very first and the last alpha values when the ray
   intersects with the CT volume. */
@@ -227,60 +233,89 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 
   if (rayVector[0] == 0)
-          alphaX = 2;
-  else{
-          alphaIntersectionUp[0] = (firstIntersectionIndexUp[0] * ctPixelSpacing[0] -  SourceWorld[0]) / rayVector[0];
-          alphaIntersectionDown[0] = (firstIntersectionIndexDown[0] * ctPixelSpacing[0] -  SourceWorld[0]) / rayVector[0];
-          alphaX = std::max(alphaIntersectionUp[0], alphaIntersectionDown[0]);
-  }
+    {
+    alphaX = 2;
+    }
+  else
+    {
+    alphaIntersectionUp[0] = (firstIntersectionIndexUp[0] * ctPixelSpacing[0] -  SourceWorld[0]) / rayVector[0];
+    alphaIntersectionDown[0] = (firstIntersectionIndexDown[0] * ctPixelSpacing[0] -  SourceWorld[0]) / rayVector[0];
+    alphaX = std::max(alphaIntersectionUp[0], alphaIntersectionDown[0]);
+    }
 
   if (rayVector[1] == 0)
-          alphaY = 2;
-  else{
-          alphaIntersectionUp[1] = (firstIntersectionIndexUp[1] * ctPixelSpacing[1] -  SourceWorld[1]) / rayVector[1];
-          alphaIntersectionDown[1] = (firstIntersectionIndexDown[1] * ctPixelSpacing[1] -  SourceWorld[1]) / rayVector[1];
-          alphaY = std::max(alphaIntersectionUp[1], alphaIntersectionDown[1]);
-  }
+    {
+    alphaY = 2;
+    }
+  else
+    {
+    alphaIntersectionUp[1] = (firstIntersectionIndexUp[1] * ctPixelSpacing[1] -  SourceWorld[1]) / rayVector[1];
+    alphaIntersectionDown[1] = (firstIntersectionIndexDown[1] * ctPixelSpacing[1] -  SourceWorld[1]) / rayVector[1];
+    alphaY = std::max(alphaIntersectionUp[1], alphaIntersectionDown[1]);
+    }
 
   if (rayVector[2] == 0)
-          alphaZ = 2;
-  else{
-          alphaIntersectionUp[2] = (firstIntersectionIndexUp[2] * ctPixelSpacing[2] -  SourceWorld[2]) / rayVector[2];
-          alphaIntersectionDown[2] = (firstIntersectionIndexDown[2] * ctPixelSpacing[2] -  SourceWorld[2]) / rayVector[2];
-          alphaZ = std::max(alphaIntersectionUp[2], alphaIntersectionDown[2]);
-  }
+    {
+    alphaZ = 2;
+    }
+  else
+    {
+    alphaIntersectionUp[2] = (firstIntersectionIndexUp[2] * ctPixelSpacing[2] -  SourceWorld[2]) / rayVector[2];
+    alphaIntersectionDown[2] = (firstIntersectionIndexDown[2] * ctPixelSpacing[2] -  SourceWorld[2]) / rayVector[2];
+    alphaZ = std::max(alphaIntersectionUp[2], alphaIntersectionDown[2]);
+    }
 
   /* Calculate alpha incremental values when the ray intercepts with x, y, and z-planes */
   if (rayVector[0]!=0)
-          alphaUx = ctPixelSpacing[0] / fabs(rayVector[0]);
+    {
+    alphaUx = ctPixelSpacing[0] / fabs(rayVector[0]);
+    }
   else
-          alphaUx = 999;
-
+    {
+    alphaUx = 999;
+    }
   if (rayVector[1]!=0)
-          alphaUy = ctPixelSpacing[1] / fabs(rayVector[1]);
+    {
+    alphaUy = ctPixelSpacing[1] / fabs(rayVector[1]);
+    }
   else
-          alphaUy = 999;
-
+    {
+    alphaUy = 999;
+    }
   if (rayVector[2]!=0)
-          alphaUz = ctPixelSpacing[2] / fabs(rayVector[2]);
+    {
+    alphaUz = ctPixelSpacing[2] / fabs(rayVector[2]);
+    }
   else
-          alphaUz = 999;
-
+    {
+    alphaUz = 999;
+    }
   /* Calculate voxel index incremental values along the ray path. */
   if (SourceWorld[0] < drrPixelWorld[0])
-          iU = 1;
+    {
+    iU = 1;
+    }
   else
-          iU = -1;
-
+    {
+    iU = -1;
+    }
   if (SourceWorld[1] < drrPixelWorld[1])
-          jU = 1;
+    {
+    jU = 1;
+    }
   else
-          jU = -1;
+    {
+    jU = -1;
+    }
 
   if (SourceWorld[2] < drrPixelWorld[2])
-          kU = 1;
+    {
+    kU = 1;
+    }
   else
-          kU = -1;
+    {
+    kU = -1;
+    }
 
   d12 = 0.0; /* Initialize the sum of the voxel intensities along the ray path to zero. */
 
@@ -294,51 +329,57 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   cIndex[2] = firstIntersectionIndexDown[2];
 
   while(alphaCmin < alphaMax) /* Check if the ray is still in the CT volume */
-  {
-          /* Store the current ray position */
-          alphaCminPrev = alphaCmin;
+    {
+    /* Store the current ray position */
+    alphaCminPrev = alphaCmin;
 
-          if ((alphaX <= alphaY) && (alphaX <= alphaZ)){
-                  /* Current ray front intercepts with x-plane. Update alphaX. */
-                  alphaCmin = alphaX;
-                  cIndex[0] = cIndex[0] + iU;
-                  alphaX = alphaX + alphaUx;
-          }
-          else if ((alphaY <= alphaX) && (alphaY <= alphaZ)){
-                  /* Current ray front intercepts with y-plane. Update alphaY. */
-                  alphaCmin = alphaY;
-                  cIndex[1] = cIndex[1] + jU;
-                  alphaY = alphaY + alphaUy;
-          }
-          else{
-                  /* Current ray front intercepts with z-plane. Update alphaZ. */
-                  alphaCmin = alphaZ;
-                  cIndex[2] = cIndex[2] + kU;
-                  alphaZ = alphaZ + alphaUz;
-          }
+    if ((alphaX <= alphaY) && (alphaX <= alphaZ))
+      {
+      /* Current ray front intercepts with x-plane. Update alphaX. */
+      alphaCmin = alphaX;
+      cIndex[0] = cIndex[0] + iU;
+      alphaX = alphaX + alphaUx;
+      }
+    else if ((alphaY <= alphaX) && (alphaY <= alphaZ))
+      {
+      /* Current ray front intercepts with y-plane. Update alphaY. */
+      alphaCmin = alphaY;
+      cIndex[1] = cIndex[1] + jU;
+      alphaY = alphaY + alphaUy;
+      }
+    else
+      {
+    /* Current ray front intercepts with z-plane. Update alphaZ. */
+    alphaCmin = alphaZ;
+    cIndex[2] = cIndex[2] + kU;
+    alphaZ = alphaZ + alphaUz;
+    }
 
-          if ((cIndex[0] >= 0) && (cIndex[0] < static_cast< IndexValueType >(sizeCT[0])) &&
-                  (cIndex[1] >= 0) && (cIndex[1] < static_cast< IndexValueType >(sizeCT[1])) &&
-                  (cIndex[2] >= 0) && (cIndex[2] < static_cast< IndexValueType >(sizeCT[2]))){
-                          /* If it is a valid index, get the voxel intensity. */
-                          value = static_cast<float>(inputPtr->GetPixel(cIndex));
-                          if (value > m_Threshold) /* Ignore voxels whose intensities are below the threshold. */
-                                  d12 += (alphaCmin - alphaCminPrev) * (value - m_Threshold);
-          }
-  }
+    if ((cIndex[0] >= 0) && (cIndex[0] < static_cast< IndexValueType >(sizeCT[0])) &&
+        (cIndex[1] >= 0) && (cIndex[1] < static_cast< IndexValueType >(sizeCT[1])) &&
+        (cIndex[2] >= 0) && (cIndex[2] < static_cast< IndexValueType >(sizeCT[2])))
+      {
+      /* If it is a valid index, get the voxel intensity. */
+      value = static_cast<float>(inputPtr->GetPixel(cIndex));
+      if (value > m_Threshold) /* Ignore voxels whose intensities are below the threshold. */
+        {
+        d12 += (alphaCmin - alphaCminPrev) * (value - m_Threshold);
+        }
+      }
+    }
 
   if( d12 < minOutputValue )
-  {
-          pixval = minOutputValue;
-  }
+    {
+    pixval = minOutputValue;
+    }
   else if( d12 > maxOutputValue )
-  {
-          pixval = maxOutputValue;
-  }
+    {
+    pixval = maxOutputValue;
+    }
   else
-  {
-          pixval = static_cast<OutputType>( d12 );
-  }
+    {
+    pixval = static_cast<OutputType>( d12 );
+    }
   return ( pixval);
 
 }

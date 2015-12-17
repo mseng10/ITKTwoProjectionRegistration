@@ -252,13 +252,13 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 /*  const short Dimension = GetImageDimension<FixedImageType>::ImageDimension;
   double fixedOrg1[Dimension];
   for(int i = 0; i < Dimension; i++)
-	fixedOrg1[i] = fixedOrigin1[i];
+  fixedOrg1[i] = fixedOrigin1[i];
   m_FixedImage1->SetOrigin(fixedOrg1);
   m_Metric->GetFixedImage1()->SetOrigin(fixedOrg1);
 
   double fixedOrg2[Dimension];
   for(int i = 0; i < Dimension; i++)
-	fixedOrg2[i] = fixedOrigin2[i];
+  fixedOrg2[i] = fixedOrigin2[i];
   m_FixedImage2->SetOrigin(fixedOrg2);
   m_Metric->GetFixedImage2()->SetOrigin(fixedOrg2);
 */

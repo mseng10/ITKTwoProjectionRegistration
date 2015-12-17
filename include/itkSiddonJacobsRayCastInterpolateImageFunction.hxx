@@ -48,7 +48,7 @@ template<typename TInputImage, typename TCoordRep>
 SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::SiddonJacobsRayCastInterpolateImageFunction()
 {
-  m_scd = 1000.;	// Focal point to isocenter distance in mm.
+  m_scd = 1000.;  // Focal point to isocenter distance in mm.
   m_ProjectionAngle = 0.; // Angle in radians betweeen projection central axis and reference axis
   m_Threshold = 0.; // Intensity threshold, below which is ignored.
 
@@ -101,7 +101,7 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   float rayVector[3];
   IndexType cIndex;
 
-  PointType drrPixelWorld;		// Coordinate of a DRR pixel in the world coordinate system
+  PointType drrPixelWorld;    // Coordinate of a DRR pixel in the world coordinate system
   OutputType pixval;
 
 
@@ -163,40 +163,40 @@ SiddonJacobsRayCastInterpolateImageFunction< TInputImage, TCoordRep >
   rayVector[1] = drrPixelWorld[1] - sourceWorld[1];
   rayVector[2] = drrPixelWorld[2] - sourceWorld[2];
 
-  /* Calculate the parametric	values of the first	and	the	last
-  intersection points of	the	ray	with the X,	Y, and Z-planes	that
-  define	the	CT volume. */
+  /* Calculate the parametric  values of the first  and  the  last
+  intersection points of  the  ray  with the X,  Y, and Z-planes  that
+  define  the  CT volume. */
   if (rayVector[0] != 0){
-          alphaX1	= (0.0 - sourceWorld[0]) / rayVector[0];
-          alphaXN	= (sizeCT[0]*ctPixelSpacing[0] -  sourceWorld[0]) /	rayVector[0];
-          alphaXmin =	std::min(alphaX1, alphaXN);
-          alphaXmax =	std::max(alphaX1, alphaXN);
+          alphaX1  = (0.0 - sourceWorld[0]) / rayVector[0];
+          alphaXN  = (sizeCT[0]*ctPixelSpacing[0] -  sourceWorld[0]) /  rayVector[0];
+          alphaXmin =  std::min(alphaX1, alphaXN);
+          alphaXmax =  std::max(alphaX1, alphaXN);
   }
   else{
-          alphaXmin =	-2;
-          alphaXmax =	2;
+          alphaXmin =  -2;
+          alphaXmax =  2;
   }
 
   if (rayVector[1] != 0){
-          alphaY1	= (0.0 - sourceWorld[1]) / rayVector[1];
-          alphaYN	= (sizeCT[1]*ctPixelSpacing[1] -  sourceWorld[1]) /	rayVector[1];
-          alphaYmin =	std::min(alphaY1, alphaYN);
-          alphaYmax =	std::max(alphaY1, alphaYN);
+          alphaY1  = (0.0 - sourceWorld[1]) / rayVector[1];
+          alphaYN  = (sizeCT[1]*ctPixelSpacing[1] -  sourceWorld[1]) /  rayVector[1];
+          alphaYmin =  std::min(alphaY1, alphaYN);
+          alphaYmax =  std::max(alphaY1, alphaYN);
   }
   else{
-          alphaYmin =	-2;
-          alphaYmax =	2;
+          alphaYmin =  -2;
+          alphaYmax =  2;
   }
 
   if (rayVector[2] != 0){
-          alphaZ1	= (0.0 - sourceWorld[2]) / rayVector[2];
-          alphaZN	= (sizeCT[2]*ctPixelSpacing[2] -  sourceWorld[2]) /	rayVector[2];
-          alphaZmin =	std::min(alphaZ1, alphaZN);
-          alphaZmax =	std::max(alphaZ1, alphaZN);
+          alphaZ1  = (0.0 - sourceWorld[2]) / rayVector[2];
+          alphaZN  = (sizeCT[2]*ctPixelSpacing[2] -  sourceWorld[2]) /  rayVector[2];
+          alphaZmin =  std::min(alphaZ1, alphaZN);
+          alphaZmax =  std::max(alphaZ1, alphaZN);
   }
   else{
-          alphaZmin =	-2;
-          alphaZmax =	2;
+          alphaZmin =  -2;
+          alphaZmax =  2;
   }
 
   /* Get the very first and the last alpha values when the ray

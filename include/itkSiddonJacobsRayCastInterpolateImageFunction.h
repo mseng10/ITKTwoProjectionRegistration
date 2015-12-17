@@ -194,9 +194,9 @@ protected:
   TransformPointer m_InverseTransform;
 
   // The threshold above which voxels along the ray path are integrated
-  double	m_Threshold;
-  double	m_scd;	// Focal point to isocenter distance
-  double	m_ProjectionAngle; // Linac gantry rotation angle in radians
+  double  m_Threshold;
+  double  m_scd;  // Focal point to isocenter distance
+  double  m_ProjectionAngle; // Linac gantry rotation angle in radians
 
 private:
   SiddonJacobsRayCastInterpolateImageFunction( const Self& ); //purposely not implemented

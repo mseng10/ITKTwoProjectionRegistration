@@ -220,7 +220,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & itkNotUsed( parameters ),
                  DerivativeType & itkNotUsed( derivative ) ) const
 {
-	// under construction
+  // under construction
 }
 
 
@@ -230,7 +230,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & itkNotUsed( parameters ),
                         MeasureType & itkNotUsed( value ), DerivativeType  & itkNotUsed( derivative )) const
 {
-	// under construction
+  // under construction
 }
 
 

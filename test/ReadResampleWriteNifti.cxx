@@ -7,7 +7,7 @@ Date:      Date: 2010/12/13
 Version:   1.0
 Author:    Jian Wu (eewujian@hotmail.com)
            Univerisity of Florida
-		   Virginia Commonwealth University
+       Virginia Commonwealth University
 
 This Program read a 3D image volume, downsample it, and save it in NIFTI
 image format.
@@ -38,13 +38,13 @@ int main( int argc, char * argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-	std::cerr << argv[0] << "  inputImageFile  outputImageFile" << std::endl; 
+  std::cerr << argv[0] << "  inputImageFile  outputImageFile" << std::endl; 
     return EXIT_FAILURE;
     }
 
   if( argc > 3 )
     {
-		std::cerr << "Too many arguments" << std::endl; 
+    std::cerr << "Too many arguments" << std::endl; 
   }
 
   const     unsigned int   Dimension = 3;

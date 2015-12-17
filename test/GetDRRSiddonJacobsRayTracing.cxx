@@ -113,8 +113,8 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 	int dy = 512;
 
 	// The central axis positions of the 2D images in continuous indices
-	float o2Dx;
-	float o2Dy;
+	float o2Dx = 0.0f;
+	float o2Dy = 0.0f;
 
 	float threshold = 0.;
 

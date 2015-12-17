@@ -228,7 +228,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & itkNotUsed( parameters ),
-                        MeasureType & value, DerivativeType  & itkNotUsed( derivative )) const
+                        MeasureType & itkNotUsed( value ), DerivativeType  & itkNotUsed( derivative )) const
 {
 	// under construction
 }

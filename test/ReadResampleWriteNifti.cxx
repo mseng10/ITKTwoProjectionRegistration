@@ -15,14 +15,6 @@ image format.
 This program was modified from the ITK example--ResampleImageFilter2.cxx
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -44,7 +36,7 @@ int main( int argc, char * argv[] )
   if( argc > 3 )
     {
     std::cerr << "Too many arguments" << std::endl;
-  }
+    }
 
   const     unsigned int   Dimension = 3;
 
@@ -68,14 +60,14 @@ int main( int argc, char * argv[] )
   reader->Update();
 
   typedef itk::ResampleImageFilter<
-                  InputImageType, OutputImageType >  FilterType;
+  InputImageType, OutputImageType >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
   typedef itk::AffineTransform< double, Dimension >  TransformType;
   TransformType::Pointer transform = TransformType::New();
 
   typedef itk::LinearInterpolateImageFunction<
-                       InputImageType, double >  InterpolatorType;
+  InputImageType, double >  InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   filter->SetInterpolator( interpolator );
 

@@ -51,8 +51,8 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
   TransformOutputPointer transformDecorator =
-                 static_cast< TransformOutputType * >(
-                                  this->MakeOutput(0).GetPointer() );
+    static_cast< TransformOutputType * >(
+      this->MakeOutput(0).GetPointer() );
 
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 }
@@ -201,7 +201,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
   // Connect the transform to the Decorator.
   //
   TransformOutputType * transformOutput =
-     static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+    static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
   transformOutput->Set( m_Transform.GetPointer() );
 
@@ -405,7 +405,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 
     // Process object is not const-correct so the const_cast is required here
     this->ProcessObject::SetNthInput(0,
-                                   const_cast< FixedImageType *>( fixedImage1 ) );
+                                     const_cast< FixedImageType *>( fixedImage1 ) );
 
     this->Modified();
     }
@@ -425,7 +425,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 
     // Process object is not const-correct so the const_cast is required here
     this->ProcessObject::SetNthInput(0,
-                                   const_cast< FixedImageType *>( fixedImage2 ) );
+                                     const_cast< FixedImageType *>( fixedImage2 ) );
 
     this->Modified();
     }
@@ -445,7 +445,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 
     // Process object is not const-correct so the const_cast is required here
     this->ProcessObject::SetNthInput(1,
-                                   const_cast< MovingImageType *>( movingImage ) );
+                                     const_cast< MovingImageType *>( movingImage ) );
 
     this->Modified();
     }

@@ -87,20 +87,20 @@ public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
   {
-          Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
   }
 
   void Execute(const itk::Object *object, const itk::EventObject & event)
   {
-          OptimizerPointer optimizer =
-                  dynamic_cast< OptimizerPointer >( object );
-          if( typeid( event ) != typeid( itk::IterationEvent ) )
-          {
-                  return;
-          }
-          //    std::cout << "Iteration: " << optimizer->GetCurrentIteration() << std::endl;
-          std::cout << "Similarity: " << optimizer->GetValue() << std::endl;
-          std::cout << "Position: " << optimizer->GetCurrentPosition() << std::endl;
+    OptimizerPointer optimizer =
+      dynamic_cast< OptimizerPointer >( object );
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+    //    std::cout << "Iteration: " << optimizer->GetCurrentIteration() << std::endl;
+    std::cout << "Similarity: " << optimizer->GetValue() << std::endl;
+    std::cout << "Position: " << optimizer->GetCurrentPosition() << std::endl;
   }
 };
 
@@ -181,40 +181,40 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
     exe_usage();
 
   while (argc > 1)
-  {
+    {
     ok = false;
 
     if ((ok == false) && (strcmp(argv[1], "-h") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       exe_usage();
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-v") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       verbose = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-dbg") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       debug = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-scd") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       scd = atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-t") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       tx=atof(argv[1]);
@@ -223,34 +223,34 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
       argc--; argv++;
       tz=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-rx") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       rx=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-ry") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       ry=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-rz") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       rz=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-2dcx") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       image1centerX = atof(argv[1]);
@@ -262,10 +262,10 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
       image2centerY = atof(argv[1]);
       argc--; argv++;
       customized_2DCX = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-res") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       image1resX = atof(argv[1]);
@@ -277,10 +277,10 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
       image2resY = atof(argv[1]);
       argc--; argv++;
       customized_2DRES = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-iso") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       cx=atof(argv[1]);
@@ -290,75 +290,75 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
       cz=atof(argv[1]);
       argc--; argv++;
       customized_iso = true;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-threshold") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       threshold=atof(argv[1]);
       argc--; argv++;
-    }
+      }
 
     if ((ok == false) && (strcmp(argv[1], "-o") == 0))
-    {
+      {
       argc--; argv++;
       ok = true;
       fileOutput1 = argv[1];
       argc--; argv++;
       fileOutput2 = argv[1];
       argc--; argv++;
-    }
+      }
 
 
     if (ok == false)
-    {
+      {
 
       if (fileImage2D1 == NULL)
-      {
+        {
         fileImage2D1 = argv[1];
         argc--;
         argv++;
-      }
+        }
 
       if (projAngle1 == -999)
-      {
+        {
         projAngle1 = atof(argv[1]);
         argc--;
         argv++;
-      }
+        }
 
       if (fileImage2D2 == NULL)
-      {
+        {
         fileImage2D2 = argv[1];
         argc--;
         argv++;
-      }
+        }
 
       if (projAngle2 == -999)
-      {
+        {
         projAngle2 = atof(argv[1]);
         argc--;
         argv++;
-      }
+        }
 
       else if (fileVolume3D == NULL)
-      {
+        {
         fileVolume3D = argv[1];
         argc--;
         argv++;
-      }
+        }
 
       else
-      {
+        {
         std::cerr << "ERROR: Cannot parse argument " << argv[1] << std::endl;
         exe_usage();
+        }
       }
     }
-  }
 
   if (verbose)
-  {
+    {
     if (fileImage2D1)  std::cout << "Input 2D image 1: " << fileImage2D1  << std::endl;
     if (fileImage2D1)  std::cout << "Projection Angle 1: " << projAngle1  << std::endl;
     if (fileImage2D2)  std::cout << "Input 2D image 2: " << fileImage2D2  << std::endl;
@@ -366,7 +366,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
     if (fileVolume3D) std::cout << "Input 3D image: " << fileVolume3D << std::endl;
     if (fileOutput1)   std::cout << "Output image 1: "   << fileOutput1   << std::endl;
     if (fileOutput2)   std::cout << "Output image 2: "   << fileOutput2   << std::endl;
-  }
+    }
 
 
   // We begin the program proper by defining the 2D and 3D images. The
@@ -430,14 +430,14 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   registration->SetInterpolator2(  interpolator2  );
 
   if (debug)
-  {
+    {
     metric->DebugOn();
     //transform->DebugOn();
     //optimizer->DebugOn();
     interpolator1->DebugOn();
     interpolator2->DebugOn();
     //registration->DebugOn();
-  }
+    }
 
 
   //  The 2- and 3-D images are read from files,
@@ -472,7 +472,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   imageReader2D2->Update();
 
   if (customized_2DRES)
-  {
+    {
     InternalImageType::SpacingType spacing;
     spacing[0] = image1resX;
     spacing[1] = image1resY;
@@ -483,7 +483,7 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
     spacing[1] = image2resY;
     image_tmp2->SetSpacing( spacing );
 
-  }
+    }
   // The input 2D images were loaded as 3D images. They were considered
   // as a single slice from a 3D volume. By default, images stored on the
   // disk are treated as if they have RAI orientation. After view point
@@ -579,31 +579,31 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
 
   TransformType::InputPointType isocenter;
   if (customized_iso)
-  {
+    {
     // Isocenter location given by the user.
     isocenter[0] = origin3D[0] + resolution3D[0] * cx;
     isocenter[1] = origin3D[1] + resolution3D[1] * cy;
     isocenter[2] = origin3D[2] + resolution3D[2] * cz;
-  }
+    }
   else
-  {
+    {
     // Set the center of the image as the isocenter.
     isocenter[0] = origin3D[0] + resolution3D[0] * static_cast<double>( size3D[0] ) / 2.0;
     isocenter[1] = origin3D[1] + resolution3D[1] * static_cast<double>( size3D[1] ) / 2.0;
     isocenter[2] = origin3D[2] + resolution3D[2] * static_cast<double>( size3D[2] ) / 2.0;
-  }
+    }
 
   transform->SetCenter(isocenter);
 
 
   if (verbose)
-  {
+    {
     std::cout << "3D image size: "
-      << size3D[0] << ", " << size3D[1] << ", " << size3D[2] << std::endl
-      << "   resolution: "
-      << resolution3D[0] << ", " << resolution3D[1] << ", " << resolution3D[2] << std::endl
-      << "Transform: " << transform << std::endl;
-  }
+              << size3D[0] << ", " << size3D[1] << ", " << size3D[2] << std::endl
+              << "   resolution: "
+              << resolution3D[0] << ", " << resolution3D[1] << ", " << resolution3D[2] << std::endl
+              << "Transform: " << transform << std::endl;
+    }
 
 
   // Set the origin of the 2D image
@@ -637,13 +637,13 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   SizeType2D        size2D2   = region2D2.GetSize();
 
   if (!customized_2DCX)
-  { // Central axis positions are not given by the user. Use the image centers
+    { // Central axis positions are not given by the user. Use the image centers
     // as the central axis position.
     image1centerX = ((double) size2D1[0] - 1.)/2.;
     image1centerY = ((double) size2D1[1] - 1.)/2.;
     image2centerX = ((double) size2D2[0] - 1.)/2.;
     image2centerY = ((double) size2D2[1] - 1.)/2.;
-  }
+    }
 
   // 2D Image 1
   origin2D1[0] = - resolution2D1[0] * image1centerX;
@@ -665,20 +665,20 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   registration->SetFixedImageRegion2( rescaler2D2->GetOutput()->GetBufferedRegion() );
 
   if (verbose)
-  {
+    {
     std::cout << "2D image 1 size: "
-      << size2D1[0] << ", " << size2D1[1] << ", " << size2D1[2] << std::endl
-      << "   resolution: "
-      << resolution2D1[0] << ", " << resolution2D1[1] << ", " << resolution2D1[2] << std::endl
-      << "   and position: "
-      << origin2D1[0] << ", " << origin2D1[1] << ", " << origin2D1[2] << std::endl
-      << "2D image 2 size: "
-      << size2D2[0] << ", " << size2D2[1] << ", " << size2D2[2] << std::endl
-      << "   resolution: "
-      << resolution2D2[0] << ", " << resolution2D2[1] << ", " << resolution2D2[2] << std::endl
-      << "   and position: "
-      << origin2D2[0] << ", " << origin2D2[1] << ", " << origin2D2[2] << std::endl;
-  }
+              << size2D1[0] << ", " << size2D1[1] << ", " << size2D1[2] << std::endl
+              << "   resolution: "
+              << resolution2D1[0] << ", " << resolution2D1[1] << ", " << resolution2D1[2] << std::endl
+              << "   and position: "
+              << origin2D1[0] << ", " << origin2D1[1] << ", " << origin2D1[2] << std::endl
+              << "2D image 2 size: "
+              << size2D2[0] << ", " << size2D2[1] << ", " << size2D2[2] << std::endl
+              << "   resolution: "
+              << resolution2D2[0] << ", " << resolution2D2[1] << ", " << resolution2D2[2] << std::endl
+              << "   and position: "
+              << origin2D2[0] << ", " << origin2D2[1] << ", " << origin2D2[2] << std::endl;
+    }
 
   // Initialize the ray cast interpolator
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -744,9 +744,9 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   optimizer->SetScales( weightings );
 
   if (verbose)
-  {
+    {
     optimizer->Print( std::cout );
-  }
+    }
 
 
   // Create the observers
@@ -764,23 +764,23 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   itk::TimeProbesCollectorBase timer;
 
   if (verbose)
-  {
+    {
     std::cout << "Starting the registration now..." << std::endl;
-  }
+    }
 
   try
-  {
+    {
     timer.Start("Registration");
     // Start the registration.
     registration->StartRegistration();
     timer.Stop("Registration");
-  }
+    }
   catch( itk::ExceptionObject & err )
-  {
+    {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return -1;
-  }
+    }
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
@@ -854,14 +854,14 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
 
   /////////////////////////////---DEGUG--START----////////////////////////////////////
   if (debug)
-  {
+    {
     InternalImageType::PointType outputorigin2D1 = rescaler2D1->GetOutput()->GetOrigin();
     std::cout << "Output image 1 origin: " << outputorigin2D1[0] << ", " << outputorigin2D1[1]
-    << ", " << outputorigin2D1[2] << std::endl;
+              << ", " << outputorigin2D1[2] << std::endl;
     InternalImageType::PointType outputorigin2D2 = rescaler2D2->GetOutput()->GetOrigin();
     std::cout << "Output image 2 origin: " << outputorigin2D2[0] << ", " << outputorigin2D2[1]
-    << ", " << outputorigin2D2[2] << std::endl;
-  }
+              << ", " << outputorigin2D2[2] << std::endl;
+    }
   /////////////////////////////---DEGUG--END----//////////////////////////////////////
 
 
@@ -892,29 +892,30 @@ int TwoProjection2D3DRegistration( int argc, char *argv[] )
   writer1->SetFileName( fileOutput1 );
   writer1->SetInput( rescaler1->GetOutput() );
 
-  try {
+  try
+    {
     std::cout << "Writing image: " << fileOutput1 << std::endl;
     writer1->Update();
-  }
-  catch( itk::ExceptionObject & err ) {
-
+    }
+  catch( itk::ExceptionObject & err )
+    {
     std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-  }
+    }
 
   writer2->SetFileName( fileOutput2 );
   writer2->SetInput( rescaler2->GetOutput() );
 
-  try {
+  try
+    {
     std::cout << "Writing image: " << fileOutput2 << std::endl;
     writer2->Update();
-  }
-  catch( itk::ExceptionObject & err ) {
-
+    }
+  catch( itk::ExceptionObject & err )
+    {
     std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-  }
-
+    }
   timer.Report();
 
   return EXIT_SUCCESS;

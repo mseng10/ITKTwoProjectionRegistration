@@ -26,20 +26,13 @@ or voxel space," Journal of Computing and Information Technology ?
 CIT 6, 89-94 (1998).
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
 
 
-// This example illustrates the use of the ResampleImageFilter and 
-// SiddonJacobsRayCastInterpolateImageFunction to generate digitally 
+// This example illustrates the use of the ResampleImageFilter and
+// SiddonJacobsRayCastInterpolateImageFunction to generate digitally
 // reconstructed radiographs (DRRs) from a 3D CT image volume.
 
-// The program attempts to generate the simulated x-ray images that can 
+// The program attempts to generate the simulated x-ray images that can
 // be acquired when an imager is attached to a linear accelerator.
 
 #include "itkTimeProbesCollectorBase.h"
@@ -55,34 +48,34 @@ CIT 6, 89-94 (1998).
 #include "itkSiddonJacobsRayCastInterpolateImageFunction.h"
 
 
-void usage()
+void raytracing_exe_usage()
 {
-	std::cerr << "\n";
-	std::cerr << "Usage: getDRRSiddonJacobsRayTracing <options> [input]\n";
-	std::cerr << "       calculates the Digitally Reconstructed Radiograph from  \n";
-	std::cerr << "       a CT image using Siddon-Jacob ray-tracing algorithm. \n\n";
-	std::cerr << "   where <options> is one or more of the following:\n\n";
-	std::cerr << "       <-h>                     Display (this) usage information\n";
-	std::cerr << "       <-v>                     Verbose output [default: no]\n";
-	std::cerr << "       <-res float float>       DRR Pixel spacing in isocenter plane in mm [default: 0.51mm 0.51mm]  \n";
-	std::cerr << "       <-size int int>          Size of DRR in number of pixels [default: 512x512]  \n";
-	std::cerr << "       <-scd float>             Source to isocenter (i.e., 3D image center) distance in mm [default: 1000mm]\n";
-	std::cerr << "       <-t float float float>   CT volume translation in x, y, and z direction in mm \n";
-	std::cerr << "       <-rx float>              CT volume rotation about x axis in degrees \n";
-	std::cerr << "       <-ry float>              CT volume rotation about y axis in degrees \n";
-	std::cerr << "       <-rz float>              CT volume rotation about z axis in degrees \n";
-	std::cerr << "       <-2dcx float float>      Central axis position of DRR in continuous indices \n";
-	std::cerr << "       <-iso float float float> Continous voxel indices of CT isocenter (center of rotation and projection center)\n";
-	std::cerr << "       <-rp float>              Projection angle in degrees";
-	std::cerr << "       <-threshold float>       CT intensity threshold, below which are ignored [default: 0]\n";
-	std::cerr << "       <-o file>                Output image filename\n\n";
-	std::cerr << "                                by  Jian Wu (eewujian@hotmail.com)\n\n";
-	exit(1);
+  std::cerr << "\n";
+  std::cerr << "Usage: getDRRSiddonJacobsRayTracing <options> [input]\n";
+  std::cerr << "       calculates the Digitally Reconstructed Radiograph from  \n";
+  std::cerr << "       a CT image using Siddon-Jacob ray-tracing algorithm. \n\n";
+  std::cerr << "   where <options> is one or more of the following:\n\n";
+  std::cerr << "       <-h>                     Display (this) usage information\n";
+  std::cerr << "       <-v>                     Verbose output [default: no]\n";
+  std::cerr << "       <-res float float>       DRR Pixel spacing in isocenter plane in mm [default: 0.51mm 0.51mm]  \n";
+  std::cerr << "       <-size int int>          Size of DRR in number of pixels [default: 512x512]  \n";
+  std::cerr << "       <-scd float>             Source to isocenter (i.e., 3D image center) distance in mm [default: 1000mm]\n";
+  std::cerr << "       <-t float float float>   CT volume translation in x, y, and z direction in mm \n";
+  std::cerr << "       <-rx float>              CT volume rotation about x axis in degrees \n";
+  std::cerr << "       <-ry float>              CT volume rotation about y axis in degrees \n";
+  std::cerr << "       <-rz float>              CT volume rotation about z axis in degrees \n";
+  std::cerr << "       <-2dcx float float>      Central axis position of DRR in continuous indices \n";
+  std::cerr << "       <-iso float float float> Continous voxel indices of CT isocenter (center of rotation and projection center)\n";
+  std::cerr << "       <-rp float>              Projection angle in degrees";
+  std::cerr << "       <-threshold float>       CT intensity threshold, below which are ignored [default: 0]\n";
+  std::cerr << "       <-o file>                Output image filename\n\n";
+  std::cerr << "                                by  Jian Wu (eewujian@hotmail.com)\n\n";
+  exit(EXIT_FAILURE);
 }
 
 
 
-int main( int argc, char *argv[] )
+int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 {
 	char *input_name = NULL;
 	char *output_name = NULL;
@@ -138,7 +131,7 @@ int main( int argc, char *argv[] )
 		{
 			argc--; argv++;
 			ok = true;
-			usage();      
+			raytracing_exe_usage();
 		}
 
 		if ((ok == false) && (strcmp(argv[1], "-v") == 0))
@@ -260,25 +253,25 @@ int main( int argc, char *argv[] )
 			argc--; argv++;
 		}
 
-		if (ok == false) 
+		if (ok == false)
 		{
 
-			if (input_name == NULL) 
+			if (input_name == NULL)
 			{
 				input_name = argv[1];
 				argc--;
 				argv++;
 			}
 
-			else 
+			else
 			{
 				std::cerr << "ERROR: Can not parse argument " << argv[1] << std::endl;
-				usage();
+				raytracing_exe_usage();
 			}
 		}
-	} 
+	}
 
-	if (verbose) 
+	if (verbose)
 	{
 		if (input_name)  std::cout << "Input image: "  << input_name  << std::endl;
 		if (output_name) std::cout << "Output image: " << output_name << std::endl;
@@ -299,7 +292,7 @@ int main( int argc, char *argv[] )
 	// For the purposes of this example we assume the input volume has
 	// been loaded into an {itk::Image image}.
 
-	if (input_name) 
+	if (input_name)
 	{
 
 		timer.Start("Loading Input Image");
@@ -307,21 +300,21 @@ int main( int argc, char *argv[] )
 		ReaderType::Pointer reader = ReaderType::New();
 		reader->SetFileName( input_name );
 
-		try { 
+		try {
 			reader->Update();
-		} 
+		}
 
-		catch( itk::ExceptionObject & err ) 
-		{ 
-			std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-			std::cerr << err << std::endl; 
+		catch( itk::ExceptionObject & err )
+		{
+			std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+			std::cerr << err << std::endl;
 			return EXIT_FAILURE;
-		} 
+		}
 
 		image = reader->GetOutput();
 		timer.Stop("Loading Input Image");
 	}
-	else 
+	else
 	{
 		std::cerr << "Input image file missing !" << std::endl;
 		return EXIT_FAILURE;
@@ -338,17 +331,17 @@ int main( int argc, char *argv[] )
 
 	// Print out the details of the input volume
 
-	if (verbose) 
+	if (verbose)
 	{
 		unsigned int i;
-		const itk::Vector<double, 3> spacing = image->GetSpacing();  
+		const itk::Vector<double, 3> spacing = image->GetSpacing();
 		std::cout << std::endl << "Input ";
 
 		InputImageType::RegionType region = image->GetBufferedRegion();
 		region.Print(std::cout);
 
 		std::cout << "  Resolution: [";
-		for (i=0; i<Dimension; i++) 
+		for (i=0; i<Dimension; i++)
 		{
 			std::cout << spacing[i];
 			if (i < Dimension-1) std::cout << ", ";
@@ -357,7 +350,7 @@ int main( int argc, char *argv[] )
 
 		const itk::Point<double, 3> origin = image->GetOrigin();
 		std::cout << "  Origin: [";
-		for (i=0; i<Dimension; i++) 
+		for (i=0; i<Dimension; i++)
 		{
 			std::cout << origin[i];
 			if (i < Dimension-1) std::cout << ", ";
@@ -411,20 +404,20 @@ int main( int argc, char *argv[] )
 	if (customized_iso)
 	{
 		// Isocenter location given by the user.
-		isocenter[0] = imOrigin[0] + imRes[0] * cx; 
-		isocenter[1] = imOrigin[1] + imRes[1] * cy; 
+		isocenter[0] = imOrigin[0] + imRes[0] * cx;
+		isocenter[1] = imOrigin[1] + imRes[1] * cy;
 		isocenter[2] = imOrigin[2] + imRes[2] * cz;
 	}
 	else
 	{
 		// Set the center of the image as the isocenter.
-		isocenter[0] = imOrigin[0] + imRes[0] * static_cast<double>( imSize[0] ) / 2.0; 
-		isocenter[1] = imOrigin[1] + imRes[1] * static_cast<double>( imSize[1] ) / 2.0; 
+		isocenter[0] = imOrigin[0] + imRes[0] * static_cast<double>( imSize[0] ) / 2.0;
+		isocenter[1] = imOrigin[1] + imRes[1] * static_cast<double>( imSize[1] ) / 2.0;
 		isocenter[2] = imOrigin[2] + imRes[2] * static_cast<double>( imSize[2] ) / 2.0;
 	}
 	transform->SetCenter(isocenter);
 
-	if (verbose) 
+	if (verbose)
 	{
 		std::cout << "Image size: "
 			<< imSize[0] << ", " << imSize[1] << ", " << imSize[2] << std::endl
@@ -468,30 +461,30 @@ int main( int argc, char *argv[] )
 
 	filter->SetOutputSpacing( spacing );
 
-	if (verbose) 
+	if (verbose)
 	{
-		std::cout << "Output image size: " 
-			<< size[0] << ", " 
-			<< size[1] << ", " 
+		std::cout << "Output image size: "
+			<< size[0] << ", "
+			<< size[1] << ", "
 			<< size[2] << std::endl;
 
-		std::cout << "Output image spacing: " 
-			<< spacing[0] << ", " 
-			<< spacing[1] << ", " 
+		std::cout << "Output image spacing: "
+			<< spacing[0] << ", "
+			<< spacing[1] << ", "
 			<< spacing[2] << std::endl;
 	}
 
 	double origin[ Dimension ];
 
 	if (!customized_2DCX)
-	{ // Central axis positions are not given by the user. Use the image centers 
+	{ // Central axis positions are not given by the user. Use the image centers
 		// as the central axis position.
 		o2Dx = ((double) dx - 1.)/2.;
 		o2Dy = ((double) dy - 1.)/2.;
 	}
-	
+
 	// Compute the origin (in mm) of the 2D Image
-	origin[0] = - im_sx * o2Dx; 
+	origin[0] = - im_sx * o2Dx;
 	origin[1] = - im_sy * o2Dy;
 	origin[2] = - scd;
 
@@ -504,20 +497,20 @@ int main( int argc, char *argv[] )
 	if (verbose)
 	{
 		std::cout << "Output image origin: "
-			<< origin[0] << ", " 
-			<< origin[1] << ", " 
+			<< origin[0] << ", "
+			<< origin[1] << ", "
 			<< origin[2] << std::endl;
 	}
 
 	// create writer
 
-	if (output_name) 
+	if (output_name)
 	{
 
 		// The output of the filter can then be passed to a writer to
 		// save the DRR image to a file.
 
-		typedef itk::RescaleIntensityImageFilter< 
+		typedef itk::RescaleIntensityImageFilter<
 			InputImageType, OutputImageType > RescaleFilterType;
 		RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 		rescaler->SetOutputMinimum(   0 );
@@ -550,18 +543,18 @@ int main( int argc, char *argv[] )
 		writer->SetFileName( output_name );
 		writer->SetInput( flipFilter->GetOutput() );
 
-		try 
-		{ 
+		try
+		{
 			std::cout << "Writing image: " << output_name << std::endl;
 			writer->Update();
-		} 
-		catch( itk::ExceptionObject & err ) 
-		{ 
-			std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-			std::cerr << err << std::endl; 
-		} 
+		}
+		catch( itk::ExceptionObject & err )
+		{
+			std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+			std::cerr << err << std::endl;
+		}
 	}
-	else 
+	else
 	{
 		filter->Update();
 	}

@@ -379,7 +379,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
 template < typename TFixedImage, typename TMovingImage >
 DataObject::Pointer
 TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
-::MakeOutput(unsigned int output)
+::MakeOutput( DataObjectPointerArraySizeType output )
 {
   switch (output)
     {

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 project(TwoProjectionRegistration)
 
 if(NOT ITK_SOURCE_DIR)
-  find_package(ITK REQUIRED)
+  find_package(ITK 4.9 REQUIRED)
   list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
   include(ITKModuleExternal)
 else()

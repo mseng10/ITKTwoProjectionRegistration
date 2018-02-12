@@ -200,8 +200,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage,TMovingImage>
   //
   // Connect the transform to the Decorator.
   //
-  TransformOutputType * transformOutput =
-    static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+  auto * transformOutput = static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
   transformOutput->Set( m_Transform.GetPointer() );
 

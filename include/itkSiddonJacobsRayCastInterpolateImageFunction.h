@@ -65,8 +65,7 @@ public:
   typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
 
   typedef Euler3DTransform<TCoordRep> TransformType;
@@ -108,7 +107,7 @@ public:
   typedef typename Superclass::RealType RealType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;

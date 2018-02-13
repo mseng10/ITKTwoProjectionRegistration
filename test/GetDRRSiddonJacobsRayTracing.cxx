@@ -277,12 +277,12 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   // Although we generate a 2D projection of the 3D volume for the
   // purposes of the interpolator both images must be three dimensional.
 
-  const     unsigned int   Dimension = 3;
-  typedef   short         InputPixelType;
-  typedef   unsigned char OutputPixelType;
+  constexpr unsigned int Dimension = 3;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   InputImageType::Pointer image;
 
@@ -292,7 +292,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   if (input_name)
     {
     timer.Start("Loading Input Image");
-    typedef itk::ImageFileReader< InputImageType >  ReaderType;
+    using ReaderType = itk::ImageFileReader< InputImageType >;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( input_name );
 
@@ -360,7 +360,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   // to determine the equation of each corresponding ray which is cast
   // through the input volume.
 
-  typedef itk::ResampleImageFilter<InputImageType, InputImageType > FilterType;
+  using FilterType = itk::ResampleImageFilter<InputImageType, InputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -369,7 +369,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 
   // An Euler transformation is defined to position the input volume.
 
-  typedef itk::Euler3DTransform< double >  TransformType;
+  using TransformType = itk::Euler3DTransform< double >;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -390,8 +390,8 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
   InputImageType::PointType   imOrigin = image->GetOrigin();
   InputImageType::SpacingType imRes    = image->GetSpacing();
 
-  typedef InputImageType::RegionType     InputImageRegionType;
-  typedef InputImageRegionType::SizeType InputImageSizeType;
+  using InputImageRegionType = InputImageType::RegionType;
+  using InputImageSizeType = InputImageRegionType::SizeType;
 
   InputImageRegionType imRegion = image->GetBufferedRegion();
   InputImageSizeType   imSize   = imRegion.GetSize();
@@ -426,7 +426,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
               << "Transform: " << transform << std::endl;
     }
 
-  typedef itk::SiddonJacobsRayCastInterpolateImageFunction<InputImageType,double> InterpolatorType;
+  using InterpolatorType = itk::SiddonJacobsRayCastInterpolateImageFunction<InputImageType,double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   interpolator->SetProjectionAngle( dtr * rprojection ); // Set angle between projection central axis and -z axis
@@ -505,8 +505,8 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
     // The output of the filter can then be passed to a writer to
     // save the DRR image to a file.
 
-    typedef itk::RescaleIntensityImageFilter<
-      InputImageType, OutputImageType > RescaleFilterType;
+    using RescaleFilterType = itk::RescaleIntensityImageFilter<
+      InputImageType, OutputImageType >;
     RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
     rescaler->SetOutputMinimum(   0 );
     rescaler->SetOutputMaximum( 255 );
@@ -517,10 +517,10 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 
     // Out of some reason, the computed projection is upsided-down.
     // Here we use a FilpImageFilter to flip the images in y direction.
-    typedef itk::FlipImageFilter< OutputImageType > FlipFilterType;
+    using FlipFilterType = itk::FlipImageFilter< OutputImageType >;
     FlipFilterType::Pointer flipFilter = FlipFilterType::New();
 
-    typedef FlipFilterType::FlipAxesArrayType FlipAxesArrayType;
+    using FlipAxesArrayType = FlipFilterType::FlipAxesArrayType;
     FlipAxesArrayType flipArray;
     flipArray[0] = 0;
     flipArray[1] = 1;
@@ -531,7 +531,7 @@ int GetDRRSiddonJacobsRayTracing( int argc, char *argv[] )
 
     timer.Stop("DRR post-processing");
 
-    typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+    using WriterType = itk::ImageFileWriter< OutputImageType >;
     WriterType::Pointer writer = WriterType::New();
 
     // Now we are ready to write the projection image.

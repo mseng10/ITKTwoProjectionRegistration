@@ -71,10 +71,10 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short    PixelType;
-  const unsigned int      Dimension = 3;
+  using PixelType = signed short;
+  constexpr unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >         ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -86,7 +86,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageSeriesReader< ImageType >        ReaderType;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -99,7 +99,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMImageIO       ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
 
   reader->SetImageIO( dicomIO );
@@ -144,7 +144,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMSeriesFileNames NamesGeneratorType;
+  using NamesGeneratorType = itk::GDCMSeriesFileNames;
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 
   nameGenerator->SetUseSeriesDetails( true );
@@ -174,7 +174,7 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    typedef std::vector< std::string >    SeriesIdContainer;
+    using SeriesIdContainer = std::vector< std::string >;
 
     const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
 
@@ -230,7 +230,7 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    typedef std::vector< std::string >   FileNamesContainer;
+    using FileNamesContainer = std::vector< std::string >;
     FileNamesContainer fileNames;
 
     fileNames = nameGenerator->GetFileNames( seriesIdentifier );
@@ -291,10 +291,10 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
 
-    typedef itk::NiftiImageIO                   ImageIOType;
+    using ImageIOType = itk::NiftiImageIO;
     ImageIOType::Pointer niftiIO = ImageIOType::New();
 
     //  The NiftiImageIO object is then connected to the

@@ -45,29 +45,29 @@ int main( int argc, char * argv[] )
   outputSpacing[1] = 2.0; // pixel spacing in millimeters along Y
   outputSpacing[2] = 2.0; // pixel spacing in millimeters along Z
 
-  typedef   short  InputPixelType;
-  typedef   short  OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = short;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
 
-  typedef itk::ResampleImageFilter<
-  InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::ResampleImageFilter<
+  InputImageType, OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
-  typedef itk::AffineTransform< double, Dimension >  TransformType;
+  using TransformType = itk::AffineTransform< double, Dimension >;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::LinearInterpolateImageFunction<
-  InputImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+  InputImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   filter->SetInterpolator( interpolator );
 
@@ -103,7 +103,7 @@ int main( int argc, char * argv[] )
 
   WriterType::Pointer writer = WriterType::New();
 
-  typedef itk::NiftiImageIO                   ImageIOType;
+  using ImageIOType = itk::NiftiImageIO;
   ImageIOType::Pointer niftiIO = ImageIOType::New();
 
   //  The NiftiImageIO object is then connected to the

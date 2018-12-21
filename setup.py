@@ -20,13 +20,13 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKTwoProjectionRegistration',
     description=r'ITK classes for two-projection 2D/3D registration',
-    long_description='ITKTwoProjectionRegistration provides an implementation'
-                     'of intensity-based 2D/3D rigid image registration for'
+    long_description='itk-twoprojectionregistration provides an implementation '
+                     'of intensity-based 2D/3D rigid image registration for '
                      'patient setup assessment in external beam radiotherapy.\n'
                      'Please refer to:\n'
-                     'J. Wu, “ITK-Based Implementation of Two-Projection 2D/3D'
-                     'Registration Method with an Application in Patient Setup'
-                     'for External Beam Radiotherapy”, Insight Journal.'
+                     'J. Wu, "ITK-Based Implementation of Two-Projection 2D/3D '
+                     'Registration Method with an Application in Patient Setup '
+                     'for External Beam Radiotherapy", Insight Journal, '
                      'July-December 2010, http://hdl.handle.net/10380/3245.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",

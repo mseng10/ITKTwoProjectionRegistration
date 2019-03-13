@@ -1,20 +1,9 @@
 ITKTwoProjectionRegistration
 ============================
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKTwoProjectionRegistration.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKTwoProjectionRegistration
-
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKTwoProjectionRegistration.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKTwoProjectionRegistration
-
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itktwoprojectionregistration.svg
-    :target: https://ci.appveyor.com/project/itkrobot/itktwoprojectionregistration
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
+.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKTwoProjectionRegistration?branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=13&branchName=master
+    :alt: Build Status
 
 
 Overview

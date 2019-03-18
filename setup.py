@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-twoprojectionregistration',
-    version='1.0.0',
+    version='1.0.1',
     author='Jian Wu',
     author_email='jwu2@ufl.edu',
     packages=['itk'],

@@ -29,6 +29,21 @@ A more detailed description can be found in the Insight Journal article::
   http://www.insight-journal.org/browse/publication/784
 
 
+Installation
+------------
+
+Python
+^^^^^^
+
+Install the Python packages:
+
+```sh
+python -m pip install itk-twoprojectionregistration
+```
+
+C++
+^^^
+
 Since ITK 4.10.0, this module is available in the ITK source tree as a Remote
 module. To enable it, set::
 

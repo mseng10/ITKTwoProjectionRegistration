@@ -35,11 +35,9 @@ Installation
 Python
 ^^^^^^
 
-Install the Python packages:
+Install the Python packages::
 
-```sh
-python -m pip install itk-twoprojectionregistration
-```
+  pip install itk-twoprojectionregistration
 
 C++
 ^^^

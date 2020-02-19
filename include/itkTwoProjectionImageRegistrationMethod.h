@@ -88,8 +88,7 @@ public:
   using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /**  Type of the metric. */
-  using MetricType = TwoImageToOneImageMetric< FixedImageType,
-                              MovingImageType >;
+  using MetricType = TwoImageToOneImageMetric<FixedImageType, MovingImageType>;
   using MetricPointer = typename MetricType::Pointer;
   using FixedImageRegionType = typename MetricType::FixedImageRegionType;
 
@@ -99,7 +98,7 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  using TransformOutputType = DataObjectDecorator< TransformType >;
+  using TransformOutputType = DataObjectDecorator<TransformType>;
   using TransformOutputPointer = typename TransformOutputType::Pointer;
   using TransformOutputConstPointer = typename TransformOutputType::ConstPointer;
 
@@ -121,46 +120,52 @@ public:
    * that all inputs the registration needs are in place, via a call to
    * Initialize() will then start the optimization process via a call to
    * StartOptimization()  */
-  void StartRegistration(void);
+  void
+  StartRegistration(void);
 
   /** Method that initiates the optimization process. */
-  void StartOptimization(void);
+  void
+  StartOptimization(void);
 
   /** Set/Get the Fixed images. */
-  void SetFixedImage1( const FixedImageType * fixedImage1 );
-  void SetFixedImage2( const FixedImageType * fixedImage2 );
-  itkGetConstObjectMacro( FixedImage1, FixedImageType );
-  itkGetConstObjectMacro( FixedImage2, FixedImageType );
+  void
+  SetFixedImage1(const FixedImageType * fixedImage1);
+  void
+  SetFixedImage2(const FixedImageType * fixedImage2);
+  itkGetConstObjectMacro(FixedImage1, FixedImageType);
+  itkGetConstObjectMacro(FixedImage2, FixedImageType);
 
   /** Set/Get the Moving image. */
-  void SetMovingImage( const MovingImageType * movingImage );
-  itkGetConstObjectMacro( MovingImage, MovingImageType );
+  void
+  SetMovingImage(const MovingImageType * movingImage);
+  itkGetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Set/Get the Optimizer. */
-  itkSetObjectMacro( Optimizer,  OptimizerType );
-  itkGetConstObjectMacro( Optimizer,  OptimizerType );
+  itkSetObjectMacro(Optimizer, OptimizerType);
+  itkGetConstObjectMacro(Optimizer, OptimizerType);
 
   /** Set/Get the Metric. */
-  itkSetObjectMacro( Metric, MetricType );
-  itkGetConstObjectMacro( Metric, MetricType );
+  itkSetObjectMacro(Metric, MetricType);
+  itkGetConstObjectMacro(Metric, MetricType);
 
   /** Set/Get the Transfrom. */
-  itkSetObjectMacro( Transform, TransformType );
-  itkGetConstObjectMacro( Transform, TransformType );
+  itkSetObjectMacro(Transform, TransformType);
+  itkGetConstObjectMacro(Transform, TransformType);
 
   /** Set/Get the Interpolators. */
-  itkSetObjectMacro( Interpolator1, InterpolatorType );
-  itkSetObjectMacro( Interpolator2, InterpolatorType );
-  itkGetConstObjectMacro( Interpolator1, InterpolatorType );
-  itkGetConstObjectMacro( Interpolator2, InterpolatorType );
+  itkSetObjectMacro(Interpolator1, InterpolatorType);
+  itkSetObjectMacro(Interpolator2, InterpolatorType);
+  itkGetConstObjectMacro(Interpolator1, InterpolatorType);
+  itkGetConstObjectMacro(Interpolator2, InterpolatorType);
 
   /** Set/Get the initial transformation parameters. */
-  virtual void SetInitialTransformParameters( const ParametersType & param );
-  itkGetConstReferenceMacro( InitialTransformParameters, ParametersType );
+  virtual void
+  SetInitialTransformParameters(const ParametersType & param);
+  itkGetConstReferenceMacro(InitialTransformParameters, ParametersType);
 
   /** Get the last transformation parameters visited by
    * the optimizer. */
-  itkGetConstReferenceMacro( LastTransformParameters, ParametersType );
+  itkGetConstReferenceMacro(LastTransformParameters, ParametersType);
 
   /** Set the region of the fixed image to be considered as region of
    interest during the registration. This region will be passed to
@@ -169,76 +174,82 @@ public:
    \warning The same region can also be set directly into the metric.
    please avoid to set the region in both places since this can lead
    to inconsistent configurations.  */
-  void SetFixedImageRegion1( const  FixedImageRegionType & region1 );
-  void SetFixedImageRegion2( const  FixedImageRegionType & region2 );
+  void
+  SetFixedImageRegion1(const FixedImageRegionType & region1);
+  void
+  SetFixedImageRegion2(const FixedImageRegionType & region2);
   /** Get the region of the fixed image to be considered as region of
    interest during the registration. This region will be passed to
    the ImageMetric in order to restrict the metric computation to
    consider only this region.  */
-  itkGetConstReferenceMacro( FixedImageRegion1, FixedImageRegionType );
-  itkGetConstReferenceMacro( FixedImageRegion2, FixedImageRegionType );
+  itkGetConstReferenceMacro(FixedImageRegion1, FixedImageRegionType);
+  itkGetConstReferenceMacro(FixedImageRegion2, FixedImageRegionType);
   /** True if a region has been defined for the fixed image to which
    the ImageMetric will limit its computation */
-  itkGetMacro( FixedImageRegionDefined1, bool );
-  itkGetMacro( FixedImageRegionDefined2, bool );
+  itkGetMacro(FixedImageRegionDefined1, bool);
+  itkGetMacro(FixedImageRegionDefined2, bool);
   /** Turn on/off the use of a fixed image region to which
    the ImageMetric will limit its computation.
    \warning The region must have been previously defined using the
    SetFixedImageRegion member function */
-  itkSetMacro( FixedImageRegionDefined1, bool );
-  itkSetMacro( FixedImageRegionDefined2, bool );
+  itkSetMacro(FixedImageRegionDefined1, bool);
+  itkSetMacro(FixedImageRegionDefined2, bool);
 
   /** Initialize by setting the interconnects between the components. */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
   /** Returns the transform resulting from the registration process  */
-  const TransformOutputType * GetOutput() const;
+  const TransformOutputType *
+  GetOutput() const;
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
   TwoProjectionImageRegistrationMethod();
-  ~TwoProjectionImageRegistrationMethod() override {};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  ~TwoProjectionImageRegistrationMethod() override{};
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Provides derived classes with the ability to set this private var */
-  itkSetMacro( LastTransformParameters, ParametersType );
+  itkSetMacro(LastTransformParameters, ParametersType);
 
 
 private:
-  MetricPointer                    m_Metric;
-  OptimizerType::Pointer           m_Optimizer;
+  MetricPointer          m_Metric;
+  OptimizerType::Pointer m_Optimizer;
 
-  MovingImageConstPointer          m_MovingImage;
-  FixedImageConstPointer           m_FixedImage1;
-  FixedImageConstPointer           m_FixedImage2;
+  MovingImageConstPointer m_MovingImage;
+  FixedImageConstPointer  m_FixedImage1;
+  FixedImageConstPointer  m_FixedImage2;
 
-  TransformPointer                 m_Transform;
-  InterpolatorPointer              m_Interpolator1;
-  InterpolatorPointer              m_Interpolator2;
+  TransformPointer    m_Transform;
+  InterpolatorPointer m_Interpolator1;
+  InterpolatorPointer m_Interpolator2;
 
-  ParametersType                   m_InitialTransformParameters;
-  ParametersType                   m_LastTransformParameters;
+  ParametersType m_InitialTransformParameters;
+  ParametersType m_LastTransformParameters;
 
-  bool                             m_FixedImageRegionDefined1;
-  bool                             m_FixedImageRegionDefined2;
-  FixedImageRegionType             m_FixedImageRegion1;
-  FixedImageRegionType             m_FixedImageRegion2;
-
+  bool                 m_FixedImageRegionDefined1;
+  bool                 m_FixedImageRegionDefined2;
+  FixedImageRegionType m_FixedImageRegion1;
+  FixedImageRegionType m_FixedImageRegion2;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTwoProjectionImageRegistrationMethod.hxx"
+#  include "itkTwoProjectionImageRegistrationMethod.hxx"
 #endif
 
 #endif

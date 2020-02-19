@@ -50,14 +50,14 @@ This program was modified from the ITK example--DicomSeriesReadSeriesWrite.cxx
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char* argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 3 )
+  if (argc < 3)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]"
-      << std::endl;
+    std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -74,7 +74,7 @@ int main( int argc, char* argv[] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -86,7 +86,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using ReaderType = itk::ImageSeriesReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -102,7 +102,7 @@ int main( int argc, char* argv[] )
   using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
 
-  reader->SetImageIO( dicomIO );
+  reader->SetImageIO(dicomIO);
   // Software Guide : EndCodeSnippet
 
 
@@ -147,10 +147,10 @@ int main( int argc, char* argv[] )
   using NamesGeneratorType = itk::GDCMSeriesFileNames;
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 
-  nameGenerator->SetUseSeriesDetails( true );
-  nameGenerator->AddSeriesRestriction("0008|0021" );
+  nameGenerator->SetUseSeriesDetails(true);
+  nameGenerator->AddSeriesRestriction("0008|0021");
 
-  nameGenerator->SetDirectory( argv[1] );
+  nameGenerator->SetDirectory(argv[1]);
   // Software Guide : EndCodeSnippet
 
 
@@ -174,13 +174,13 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    using SeriesIdContainer = std::vector< std::string >;
+    using SeriesIdContainer = std::vector<std::string>;
 
     const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
 
     SeriesIdContainer::const_iterator seriesItr = seriesUID.begin();
     SeriesIdContainer::const_iterator seriesEnd = seriesUID.end();
-    while( seriesItr != seriesEnd )
+    while (seriesItr != seriesEnd)
     {
       std::cout << seriesItr->c_str() << std::endl;
       seriesItr++;
@@ -202,7 +202,7 @@ int main( int argc, char* argv[] )
     // Software Guide : BeginCodeSnippet
     std::string seriesIdentifier;
 
-    if( argc > 3 ) // If no optional series identifier
+    if (argc > 3) // If no optional series identifier
     {
       seriesIdentifier = argv[3];
     }
@@ -230,10 +230,10 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    using FileNamesContainer = std::vector< std::string >;
+    using FileNamesContainer = std::vector<std::string>;
     FileNamesContainer fileNames;
 
-    fileNames = nameGenerator->GetFileNames( seriesIdentifier );
+    fileNames = nameGenerator->GetFileNames(seriesIdentifier);
     // Software Guide : EndCodeSnippet
 
 
@@ -248,7 +248,7 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    reader->SetFileNames( fileNames );
+    reader->SetFileNames(fileNames);
     // Software Guide : EndCodeSnippet
 
 
@@ -265,7 +265,7 @@ int main( int argc, char* argv[] )
     {
       reader->Update();
     }
-    catch (itk::ExceptionObject &ex)
+    catch (itk::ExceptionObject & ex)
     {
       std::cout << ex << std::endl;
       return EXIT_FAILURE;
@@ -291,7 +291,7 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    using WriterType = itk::ImageFileWriter< ImageType >;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     WriterType::Pointer writer = WriterType::New();
 
     using ImageIOType = itk::NiftiImageIO;
@@ -303,15 +303,15 @@ int main( int argc, char* argv[] )
     //  not attempt to look for other ImageIO objects capable of
     //  performing the writing tasks. It will simply invoke the one provided by
     //  the user.
-    writer->SetImageIO( niftiIO );
+    writer->SetImageIO(niftiIO);
 
-    writer->SetFileName( argv[2] );
+    writer->SetFileName(argv[2]);
 
-    writer->SetInput( reader->GetOutput() );
+    writer->SetInput(reader->GetOutput());
     // Software Guide : EndCodeSnippet
 
-    std::cout  << "Writing the image as " << std::endl << std::endl;
-    std::cout  << argv[2] << std::endl << std::endl;
+    std::cout << "Writing the image as " << std::endl << std::endl;
+    std::cout << argv[2] << std::endl << std::endl;
 
 
     // Software Guide : BeginLatex
@@ -327,17 +327,17 @@ int main( int argc, char* argv[] )
       writer->Update();
       // Software Guide : EndCodeSnippet
     }
-    catch (itk::ExceptionObject &ex)
+    catch (itk::ExceptionObject & ex)
     {
       std::cout << ex << std::endl;
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject &ex)
-    {
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Software Guide : BeginLatex

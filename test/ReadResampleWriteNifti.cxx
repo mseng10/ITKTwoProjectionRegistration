@@ -24,23 +24,24 @@ This program was modified from the ITK example--ResampleImageFilter2.cxx
 #include "itkLinearInterpolateImageFunction.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( argc > 3 )
-    {
+  if (argc > 3)
+  {
     std::cerr << "Too many arguments" << std::endl;
-    }
+  }
 
   constexpr unsigned int Dimension = 3;
 
-  double outputSpacing[ Dimension ];
+  double outputSpacing[Dimension];
   outputSpacing[0] = 2.0; // pixel spacing in millimeters along X
   outputSpacing[1] = 2.0; // pixel spacing in millimeters along Y
   outputSpacing[2] = 2.0; // pixel spacing in millimeters along Z
@@ -48,58 +49,56 @@ int main( int argc, char * argv[] )
   using InputPixelType = short;
   using OutputPixelType = short;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->Update();
 
-  using FilterType = itk::ResampleImageFilter<
-  InputImageType, OutputImageType >;
+  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
-  using TransformType = itk::AffineTransform< double, Dimension >;
+  using TransformType = itk::AffineTransform<double, Dimension>;
   TransformType::Pointer transform = TransformType::New();
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-  InputImageType, double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  filter->SetInterpolator( interpolator );
+  filter->SetInterpolator(interpolator);
 
-  filter->SetDefaultPixelValue( 0 );
+  filter->SetDefaultPixelValue(0);
 
   InputImageType::SpacingType inputSpacing = reader->GetOutput()->GetSpacing();
-  InputImageType::RegionType inputRegion = reader->GetOutput()->GetLargestPossibleRegion();
-  InputImageType::SizeType inputSize = inputRegion.GetSize();
+  InputImageType::RegionType  inputRegion = reader->GetOutput()->GetLargestPossibleRegion();
+  InputImageType::SizeType    inputSize = inputRegion.GetSize();
 
-  double resampleRatio[ Dimension ];
+  double resampleRatio[Dimension];
   resampleRatio[0] = outputSpacing[0] / inputSpacing[0]; // resample ratio along X
   resampleRatio[1] = outputSpacing[1] / inputSpacing[1]; // resample ratio along Y
   resampleRatio[2] = outputSpacing[2] / inputSpacing[2]; // resample ratio along Z
 
 
-  filter->SetOutputSpacing( outputSpacing );
+  filter->SetOutputSpacing(outputSpacing);
 
-  filter->SetOutputOrigin( reader->GetOutput()->GetOrigin() );
+  filter->SetOutputOrigin(reader->GetOutput()->GetOrigin());
 
 
-  InputImageType::SizeType   outputSize;
+  InputImageType::SizeType outputSize;
 
-  outputSize[0] = floor(inputSize[0] / resampleRatio[0] + 0.5);  // number of pixels along X
-  outputSize[1] = floor(inputSize[1] / resampleRatio[1] + 0.5);  // number of pixels along Y
-  outputSize[2] = floor(inputSize[2] / resampleRatio[2] + 0.5);  // number of pixels along Z
+  outputSize[0] = floor(inputSize[0] / resampleRatio[0] + 0.5); // number of pixels along X
+  outputSize[1] = floor(inputSize[1] / resampleRatio[1] + 0.5); // number of pixels along Y
+  outputSize[2] = floor(inputSize[2] / resampleRatio[2] + 0.5); // number of pixels along Z
 
-  filter->SetSize( outputSize );
+  filter->SetSize(outputSize);
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
   transform->SetIdentity();
-  filter->SetTransform( transform );
+  filter->SetTransform(transform);
 
   WriterType::Pointer writer = WriterType::New();
 
@@ -112,9 +111,9 @@ int main( int argc, char * argv[] )
   //  not attempt to look for other ImageIO objects capable of
   //  performing the writing tasks. It will simply invoke the one provided by
   //  the user.
-  writer->SetImageIO( niftiIO );
-  writer->SetFileName( argv[2] );
-  writer->SetInput( filter->GetOutput() );
+  writer->SetImageIO(niftiIO);
+  writer->SetFileName(argv[2]);
+  writer->SetInput(filter->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

@@ -44,25 +44,24 @@ namespace itk
 {
 
 /** \class SiddonJacobsRayCastInterpolateImageFunction
-  * \brief Projective interpolation of an image at specified positions.
-  *
-  * SiddonJacobsRayCastInterpolateImageFunction casts rays through a 3-dimensional
-  * image
-  * \warning This interpolator works for 3-dimensional images only.
-  *
-  * \ingroup ImageFunctions
-  * \ingroup TwoProjectionRegistration
-  */
-template <typename TInputImage, typename TCoordRep = float >
-class SiddonJacobsRayCastInterpolateImageFunction :
-    public InterpolateImageFunction<TInputImage,TCoordRep>
+ * \brief Projective interpolation of an image at specified positions.
+ *
+ * SiddonJacobsRayCastInterpolateImageFunction casts rays through a 3-dimensional
+ * image
+ * \warning This interpolator works for 3-dimensional images only.
+ *
+ * \ingroup ImageFunctions
+ * \ingroup TwoProjectionRegistration
+ */
+template <typename TInputImage, typename TCoordRep = float>
+class SiddonJacobsRayCastInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SiddonJacobsRayCastInterpolateImageFunction);
 
   /** Standard class type alias. */
   using Self = SiddonJacobsRayCastInterpolateImageFunction;
-  using Superclass = InterpolateImageFunction<TInputImage,TCoordRep>;
+  using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -85,7 +84,7 @@ public:
   using DirectionType = Vector<TCoordRep, 3>;
 
   /**  Type of the Interpolator Base class */
-  using InterpolatorType = InterpolateImageFunction<TInputImage,TCoordRep>;
+  using InterpolatorType = InterpolateImageFunction<TInputImage, TCoordRep>;
 
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
@@ -122,37 +121,39 @@ public:
 
 
   /** \brief
-  * Interpolate the image at a point position.
-  *
-  * Returns the interpolated image intensity at a
-  * specified point position. No bounds checking is done.
-  * The point is assume to lie within the image buffer.
-  *
-  * ImageFunction::IsInsideBuffer() can be used to check bounds before
-  * calling the method.
-  */
-  OutputType Evaluate( const PointType& point ) const override;
+   * Interpolate the image at a point position.
+   *
+   * Returns the interpolated image intensity at a
+   * specified point position. No bounds checking is done.
+   * The point is assume to lie within the image buffer.
+   *
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method.
+   */
+  OutputType
+  Evaluate(const PointType & point) const override;
 
   /** Interpolate the image at a continuous index position
-  *
-  * Returns the interpolated image intensity at a
-  * specified index position. No bounds checking is done.
-  * The point is assume to lie within the image buffer.
-  *
-  * Subclasses must override this method.
-  *
-  * ImageFunction::IsInsideBuffer() can be used to check bounds before
-  * calling the method.
-  */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &index ) const override;
+   *
+   * Returns the interpolated image intensity at a
+   * specified index position. No bounds checking is done.
+   * The point is assume to lie within the image buffer.
+   *
+   * Subclasses must override this method.
+   *
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method.
+   */
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
-  virtual void Initialize(void);
+  virtual void
+  Initialize(void);
 
   /** Connect the Transform. */
-  itkSetObjectMacro( Transform, TransformType );
+  itkSetObjectMacro(Transform, TransformType);
   /** Get a pointer to the Transform.  */
-  itkGetConstObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro(Transform, TransformType);
 
   /** Set and get the focal point to isocenter distance in mm */
   itkSetMacro(FocalPointToIsocenterDistance, double);
@@ -167,31 +168,35 @@ public:
   itkGetMacro(Threshold, double);
 
   /** Check if a point is inside the image buffer.
-  * \warning For efficiency, no validity checking of
-  * the input image pointer is done. */
-  inline bool IsInsideBuffer( const PointType & ) const override
+   * \warning For efficiency, no validity checking of
+   * the input image pointer is done. */
+  inline bool
+  IsInsideBuffer(const PointType &) const override
   {
     return true;
   }
-  bool IsInsideBuffer( const ContinuousIndexType &  ) const override
+  bool
+  IsInsideBuffer(const ContinuousIndexType &) const override
   {
     return true;
   }
-  bool IsInsideBuffer( const IndexType &  ) const override
+  bool
+  IsInsideBuffer(const IndexType &) const override
   {
     return true;
   }
 
 #if !defined(ITKV4_COMPATIBILITY)
-  SizeType GetRadius() const override
+  SizeType
+  GetRadius() const override
+  {
+    const InputImageType * input = this->GetInputImage();
+    if (!input)
     {
-    const InputImageType* input = this->GetInputImage();
-    if ( !input )
-      {
-      itkExceptionMacro( "Input image required!" );
-      }
-    return input->GetLargestPossibleRegion().GetSize();
+      itkExceptionMacro("Input image required!");
     }
+    return input->GetLargestPossibleRegion().GetSize();
+  }
 #endif
 
 protected:
@@ -199,7 +204,8 @@ protected:
 
   ~SiddonJacobsRayCastInterpolateImageFunction() override{};
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /// Transformation used to calculate the new focal point position
   TransformPointer m_Transform; // Displacement of the volume
@@ -209,22 +215,23 @@ protected:
   // The threshold above which voxels along the ray path are integrated
   double m_Threshold;
   double m_FocalPointToIsocenterDistance; // Focal point to isocenter distance
-  double m_ProjectionAngle; // Linac gantry rotation angle in radians
+  double m_ProjectionAngle;               // Linac gantry rotation angle in radians
 
 private:
-  void ComputeInverseTransform( void ) const;
+  void
+                   ComputeInverseTransform(void) const;
   TransformPointer m_GantryRotTransform; // Gantry rotation transform
-  TransformPointer m_CamShiftTransform; // Camera shift transform camRotTransform
-  TransformPointer m_CamRotTransform; // Camera rotation transform
-  TransformPointer m_ComposedTransform; // Composed transform
-  PointType        m_SourcePoint; // Coordinate of the source in the standard Z projection geometry
-  PointType        m_SourceWorld; // Coordinate of the source in the world coordinate system
+  TransformPointer m_CamShiftTransform;  // Camera shift transform camRotTransform
+  TransformPointer m_CamRotTransform;    // Camera rotation transform
+  TransformPointer m_ComposedTransform;  // Composed transform
+  PointType        m_SourcePoint;        // Coordinate of the source in the standard Z projection geometry
+  PointType        m_SourceWorld;        // Coordinate of the source in the world coordinate system
 };
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSiddonJacobsRayCastInterpolateImageFunction.hxx"
+#  include "itkSiddonJacobsRayCastInterpolateImageFunction.hxx"
 #endif
 
 #endif

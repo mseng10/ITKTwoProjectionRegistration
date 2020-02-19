@@ -48,7 +48,7 @@ namespace itk
  *
  */
 
-template <typename TFixedImage,  typename TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 class TwoImageToOneImageMetric : public SingleValuedCostFunction
 {
 public:
@@ -82,8 +82,8 @@ public:
 
   /**  Type of the Transform Base class */
   using TransformType = Transform<CoordinateRepresentationType,
-                    itkGetStaticConstMacro(MovingImageDimension),
-                    itkGetStaticConstMacro(FixedImageDimension)>;
+                                  itkGetStaticConstMacro(MovingImageDimension),
+                                  itkGetStaticConstMacro(FixedImageDimension)>;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -92,34 +92,27 @@ public:
   using TransformJacobianType = typename TransformType::JacobianType;
 
   /**  Type of the Interpolator Base class */
-  using InterpolatorType = InterpolateImageFunction<
-    MovingImageType,
-    CoordinateRepresentationType >;
+  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordinateRepresentationType>;
 
 
   /** Gaussian filter to compute the gradient of the Moving Image */
   using RealType = typename NumericTraits<MovingImagePixelType>::RealType;
-  using GradientPixelType = CovariantVector<RealType,
-                          itkGetStaticConstMacro(MovingImageDimension)>;
-  using GradientImageType = Image<GradientPixelType,
-                itkGetStaticConstMacro(MovingImageDimension)>;
+  using GradientPixelType = CovariantVector<RealType, itkGetStaticConstMacro(MovingImageDimension)>;
+  using GradientImageType = Image<GradientPixelType, itkGetStaticConstMacro(MovingImageDimension)>;
   using GradientImagePointer = SmartPointer<GradientImageType>;
-  using GradientImageFilterType = GradientRecursiveGaussianImageFilter< MovingImageType,
-                                                GradientImageType >;
+  using GradientImageFilterType = GradientRecursiveGaussianImageFilter<MovingImageType, GradientImageType>;
   using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension)
-                         >       FixedImageMaskType;
-  using FixedImageMaskPointer = typename  FixedImageMaskType::Pointer;
+  typedef SpatialObject<itkGetStaticConstMacro(FixedImageDimension)> FixedImageMaskType;
+  using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension)
-                         >      MovingImageMaskType;
-  using MovingImageMaskPointer = typename  MovingImageMaskType::Pointer;
+  typedef SpatialObject<itkGetStaticConstMacro(MovingImageDimension)> MovingImageMaskType;
+  using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
 
 
   /**  Type of the measure. */
@@ -132,118 +125,122 @@ public:
   using ParametersType = Superclass::ParametersType;
 
   /** Connect the Fixed Image.  */
-  itkSetConstObjectMacro( FixedImage1, FixedImageType );
+  itkSetConstObjectMacro(FixedImage1, FixedImageType);
 
   /** Connect the Fixed Image.  */
-  itkSetConstObjectMacro( FixedImage2, FixedImageType );
+  itkSetConstObjectMacro(FixedImage2, FixedImageType);
 
   /** Get the Fixed Image. */
-  itkGetConstObjectMacro( FixedImage1, FixedImageType );
+  itkGetConstObjectMacro(FixedImage1, FixedImageType);
 
   /** Get the Fixed Image. */
-  itkGetConstObjectMacro( FixedImage2, FixedImageType );
+  itkGetConstObjectMacro(FixedImage2, FixedImageType);
 
   /** Connect the Moving Image.  */
-  itkSetConstObjectMacro( MovingImage, MovingImageType );
+  itkSetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Get the Moving Image. */
-  itkGetConstObjectMacro( MovingImage, MovingImageType );
+  itkGetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Connect the Transform. */
-  itkSetObjectMacro( Transform, TransformType );
+  itkSetObjectMacro(Transform, TransformType);
 
   /** Get a pointer to the Transform.  */
-  itkGetConstObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro(Transform, TransformType);
 
   /** Connect the Interpolator. */
-  itkSetObjectMacro( Interpolator1, InterpolatorType );
+  itkSetObjectMacro(Interpolator1, InterpolatorType);
 
   /** Connect the Interpolator. */
-  itkSetObjectMacro( Interpolator2, InterpolatorType );
+  itkSetObjectMacro(Interpolator2, InterpolatorType);
 
   /** Get a pointer to the Interpolator.  */
-  itkGetConstObjectMacro( Interpolator1, InterpolatorType );
+  itkGetConstObjectMacro(Interpolator1, InterpolatorType);
 
   /** Get a pointer to the Interpolator.  */
-  itkGetConstObjectMacro( Interpolator2, InterpolatorType );
+  itkGetConstObjectMacro(Interpolator2, InterpolatorType);
 
   /** Get the number of pixels considered in the computation. */
-  itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
+  itkGetConstReferenceMacro(NumberOfPixelsCounted, unsigned long);
 
   /** Set the region over which the metric will be computed */
-  itkSetMacro( FixedImageRegion1, FixedImageRegionType );
+  itkSetMacro(FixedImageRegion1, FixedImageRegionType);
 
   /** Set the region over which the metric will be computed */
-  itkSetMacro( FixedImageRegion2, FixedImageRegionType );
+  itkSetMacro(FixedImageRegion2, FixedImageRegionType);
 
   /** Get the region over which the metric will be computed */
-  itkGetConstReferenceMacro( FixedImageRegion1, FixedImageRegionType );
+  itkGetConstReferenceMacro(FixedImageRegion1, FixedImageRegionType);
 
   /** Get the region over which the metric will be computed */
-  itkGetConstReferenceMacro( FixedImageRegion2, FixedImageRegionType );
+  itkGetConstReferenceMacro(FixedImageRegion2, FixedImageRegionType);
 
   /** Set/Get the moving image mask. */
-  itkSetObjectMacro( MovingImageMask, MovingImageMaskType );
-  itkGetConstObjectMacro( MovingImageMask, MovingImageMaskType );
+  itkSetObjectMacro(MovingImageMask, MovingImageMaskType);
+  itkGetConstObjectMacro(MovingImageMask, MovingImageMaskType);
 
   /** Set/Get the fixed image mask. */
-  itkSetObjectMacro( FixedImageMask1, FixedImageMaskType );
-  itkSetObjectMacro( FixedImageMask2, FixedImageMaskType );
-  itkGetConstObjectMacro( FixedImageMask1, FixedImageMaskType );
-  itkGetConstObjectMacro( FixedImageMask2, FixedImageMaskType );
+  itkSetObjectMacro(FixedImageMask1, FixedImageMaskType);
+  itkSetObjectMacro(FixedImageMask2, FixedImageMaskType);
+  itkGetConstObjectMacro(FixedImageMask1, FixedImageMaskType);
+  itkGetConstObjectMacro(FixedImageMask2, FixedImageMaskType);
 
   /** Set/Get gradient computation. */
-  itkSetMacro( ComputeGradient, bool);
-  itkGetConstReferenceMacro( ComputeGradient, bool);
+  itkSetMacro(ComputeGradient, bool);
+  itkGetConstReferenceMacro(ComputeGradient, bool);
   itkBooleanMacro(ComputeGradient);
 
   /** Get Gradient Image. */
-  itkGetConstObjectMacro( GradientImage, GradientImageType );
+  itkGetConstObjectMacro(GradientImage, GradientImageType);
 
   /** Set the parameters defining the Transform. */
-  void SetTransformParameters( const ParametersType & parameters ) const;
+  void
+  SetTransformParameters(const ParametersType & parameters) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return m_Transform->GetNumberOfParameters();
   }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
 protected:
   TwoImageToOneImageMetric();
-  ~TwoImageToOneImageMetric() override {};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  ~TwoImageToOneImageMetric() override{};
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  mutable unsigned long       m_NumberOfPixelsCounted;
+  mutable unsigned long m_NumberOfPixelsCounted;
 
-  FixedImageConstPointer      m_FixedImage1;
-  FixedImageConstPointer      m_FixedImage2;
-  MovingImageConstPointer     m_MovingImage;
+  FixedImageConstPointer  m_FixedImage1;
+  FixedImageConstPointer  m_FixedImage2;
+  MovingImageConstPointer m_MovingImage;
 
-  mutable TransformPointer    m_Transform;
-  InterpolatorPointer         m_Interpolator1;
-  InterpolatorPointer         m_Interpolator2;
+  mutable TransformPointer m_Transform;
+  InterpolatorPointer      m_Interpolator1;
+  InterpolatorPointer      m_Interpolator2;
 
-  bool                        m_ComputeGradient;
-  GradientImagePointer        m_GradientImage;
+  bool                 m_ComputeGradient;
+  GradientImagePointer m_GradientImage;
 
-  mutable FixedImageMaskPointer   m_FixedImageMask1;
-  mutable FixedImageMaskPointer   m_FixedImageMask2;
-  mutable MovingImageMaskPointer  m_MovingImageMask;
+  mutable FixedImageMaskPointer  m_FixedImageMask1;
+  mutable FixedImageMaskPointer  m_FixedImageMask2;
+  mutable MovingImageMaskPointer m_MovingImageMask;
 
 private:
-  FixedImageRegionType        m_FixedImageRegion1;
-  FixedImageRegionType        m_FixedImageRegion2;
+  FixedImageRegionType m_FixedImageRegion1;
+  FixedImageRegionType m_FixedImageRegion2;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTwoImageToOneImageMetric.hxx"
+#  include "itkTwoImageToOneImageMetric.hxx"
 #endif
 
 #endif

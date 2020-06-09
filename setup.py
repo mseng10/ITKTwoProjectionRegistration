@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-twoprojectionregistration',
-    version='1.0.1',
+    version='1.1.0',
     author='Jian Wu',
     author_email='jwu2@ufl.edu',
     packages=['itk'],
@@ -51,6 +51,6 @@ setup(
     keywords='ITK InsightToolkit Projection Registration',
     url=r'https://github.com/InsightSoftwareConsortium/ITKTwoProjectionRegistration',
     install_requires=[
-        r'itk>=5.0rc1'
+        r'itk>=5.1.0.post2'
     ]
     )

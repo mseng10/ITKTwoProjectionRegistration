@@ -3,8 +3,8 @@ ITKTwoProjectionRegistration
 
 .. image:: https://github.com/InsightSoftwareConsortium/ITKTwoProjectionRegistration/workflows/Build,%20test,%20package/badge.svg
 
-.. image:: https://img.shields.io/pypi/v/itk-twoprojectregistration.svg
-    :target: https://pypi.python.org/pypi/itk-twoprojectregistration
+.. image:: https://img.shields.io/pypi/v/itk-twoprojectionregistration.svg
+    :target: https://pypi.python.org/pypi/itk-twoprojectionregistration
     :alt: PyPI Version
 
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
